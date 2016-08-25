@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 16:28:27 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/08/24 18:27:38 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/08/25 15:37:55 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # include <stdio.h>
 # include <mlx.h>
 # include "./libft/libft.h"
+# include <math.h>
+
+# define RESO_X 1024
+# define RESO_Y 768
+# define D mlx->d
 
 typedef struct		s_rgb
 {
@@ -46,6 +51,18 @@ typedef struct		s_draw
 	unsigned int	col_max;
 }					t_draw;
 
+typedef struct	s_d
+{
+	double		dirx;
+	double		diry;
+	double		planex;
+	double		planey;
+	double		posx;
+	double		posy;
+	double		time;
+	double		oldtime;
+}				t_d;
+
 typedef struct	s_mlx
 {
 	void		*mlx;
@@ -55,8 +72,7 @@ typedef struct	s_mlx
 	int			sizeline;
 	int			bpp;
 	int			endian;
-	double		dirX;
-	double		dirY;
+	t_d			d;
 }				t_mlx;
 
 void	put_color_to_pixel1(t_mlx *mlx, t_draw draw, t_rgb rgb);
@@ -71,4 +87,5 @@ void		do_it(t_mlx *mlx);
 
 int			key_hook(int keycode, t_mlx *mlx);
 
+void		timing(t_mlx *mlx);
 #endif

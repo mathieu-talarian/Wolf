@@ -4,10 +4,8 @@
 
 #define mapWidth 24
 #define mapHeight 24
-#define RESO_X 512
-#define RESO_Y 384
 
-int worldMap[mapWidth][mapHeight]=
+static int worldMap[mapWidth][mapHeight]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -36,18 +34,48 @@ int worldMap[mapWidth][mapHeight]=
 };
 
 
+void	print_map_pos(int mapx, int mapy, int rx, int ry)
+{
+	printf("%d <=> %d\n", rx, ry);
+	for (int y = 0; y < mapHeight;y++)
+	{
+		for (int x = 0; x < mapHeight; x++)
+		{
+			if (x == mapx && y == mapy)
+				printf("*");
+			else if (x == rx && y == ry)
+				printf("v");
+			else 
+				printf("%d", worldMap[x][y]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
 int main(void)
 {
   t_mlx *mlx;
 
 	mlx = (t_mlx *)malloc(sizeof(t_mlx));
 	mlx->mlx = mlx_init();
-	mlx->win = mlx_new_window(mlx->mlx, 512, 384, "wolf");
-	mlx->img = mlx_new_image(mlx->mlx, 512, 384);
+	mlx->win = mlx_new_window(mlx->mlx, RESO_X, RESO_Y, "wolf");
+	mlx->img = mlx_new_image(mlx->mlx, RESO_X, RESO_Y);
 	mlx->d_addr = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->sizeline, &mlx->endian);
-	mlx->dirX = 1;
-	mlx->dirY = 1; //initial direction vector
+	D.dirx = 1;
+	D.diry = 0; //initial direction vector
+	D.time = 0; //time of current frame
+	D.oldtime = 0; //time of previous frame
+	D.planex = -1;
+	D.planey = 0.1; //the 2d raycaster version of camera plane
+	D.posx = 1;
+	D.posy = 12;  //x and y start position
+
+
+
+
 	do_it(mlx);
+//	timing(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	mlx_hook(mlx->win, 2, 1L << 0, key_hook, mlx);
 	mlx_loop(mlx->mlx);
@@ -56,20 +84,17 @@ int main(void)
 
 void	do_it(t_mlx *mlx)
 {
-  double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-  double posX = 2, posY = 2;  //x and y start position
 
-  double time = 0; //time of current frame
-  double oldTime = 0; //time of previous frame
-
-    for(int x = 0; x < RESO_X; x++)
+	double rayDirX;
+	double rayDirY;
+      for(int x = 0; x < RESO_X; x++)
     {
       //calculate ray position and direction
       double cameraX = 2 * x / (double)RESO_X - 1; //x-coordinate in camera space
-      double rayPosX = posX;
-      double rayPosY = posY;
-      double rayDirX = mlx->dirX + planeX * cameraX;
-      double rayDirY = mlx->dirY + planeY * cameraX;
+      double rayPosX = D.posx;
+      double rayPosY = D.posy;
+      rayDirX = D.dirx + D.planex * cameraX;
+      rayDirY = D.diry + D.planey * cameraX;
 
        //which box of the map we're in
       int mapX = (int)rayPosX;
@@ -78,6 +103,9 @@ void	do_it(t_mlx *mlx)
       //length of ray from current position to next x or y-side
       double sideDistX;
       double sideDistY;
+
+
+
 
        //length of ray from one x or y-side to next x or y-side
       double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
@@ -162,14 +190,39 @@ void	do_it(t_mlx *mlx)
 */
       //draw the pixels of the stripe as a vertical line
       t_rgb rgb;
-      rgb.r = 255;
+      rgb.r = 0;
 	  rgb.g = 0;
 	  rgb.b = 0;
+	  if (worldMap[mapX][mapY] == 1)
+		  rgb.r = 255;
+	  if (worldMap[mapX][mapY] == 2)
+		  rgb.g = 255;
+	  if (worldMap[mapX][mapY] == 3)
+		  rgb.b = 255;
+	  if (worldMap[mapX][mapY] == 4)
+	  {
+		  rgb.r = 255;
+		  rgb.g = 255;
+	  }
       if (side == 1)
+	  {
 		rgb.r = rgb.r / 2;
+		rgb.g /= 2;
+		rgb.b /= 2;
+	  }
       verLine(mlx, x, drawStart, drawEnd, rgb);
     }
+
+	print_map_pos((int)D.posx, (int)D.posy, (int)rayDirX, (int)rayDirY);
 }
+/*
+void	timing(t_mlx *mlx)
+{
+	mlx->oldTime = mlx->time;
+	mlx->time = getTicks();
+	double frameTime = (mlx->time - mlx->oldTime) / 1000.0;
+}
+*/
 /*
     //timing for input and FPS counter
     oldTime = time;
@@ -187,14 +240,14 @@ void	do_it(t_mlx *mlx)
     //move forward if no wall in front of you
     if (keyDown(SDLK_UP))
     {
-      if(worldMap[int(posX + mlx->dirX * moveSpeed)][int(posY)] == false) posX += dirX * moveSpeed;
-      if(worldMap[int(posX)][int(posY + mlx->dirY * moveSpeed)] == false) posY += dirY * moveSpeed;
+      if(worldMap[int(D.posx + mlx->dirX * moveSpeed)][int(D.posy)] == false) posX += dirX * moveSpeed;
+      if(worldMap[int(D.posx)][int(D.posy + mlx->dirY * moveSpeed)] == false) posY += dirY * moveSpeed;
     }
     //move backwards if no wall behind you
     if (keyDown(SDLK_DOWN))
     {
-      if(worldMap[int(posX - mlx->dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
-      if(worldMap[int(posX)][int(posY - mlx->dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;
+      if(worldMap[int(D.posx - mlx->dirX * moveSpeed)][int(D.posy)] == false) posX -= dirX * moveSpeed;
+      if(worldMap[int(D.posx)][int(D.posy - mlx->dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;
     }
     //rotate to the right
     if (keyDown(SDLK_RIGHT))
