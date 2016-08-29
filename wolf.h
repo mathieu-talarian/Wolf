@@ -22,6 +22,12 @@
 # define RESO_Y 768
 # define D mlx->d
 
+typedef	struct		s_vector
+{
+	double			x;
+	double			y;
+}					t_vector;
+
 typedef struct		s_rgb
 {
 	unsigned int	r;
@@ -53,12 +59,9 @@ typedef struct		s_draw
 
 typedef struct	s_d
 {
-	double		dirx;
-	double		diry;
-	double		planex;
-	double		planey;
-	double		posx;
-	double		posy;
+	t_vector	dir;
+	t_vector	plane;
+	t_vector	pos;
 	double		time;
 	double		oldtime;
 }				t_d;

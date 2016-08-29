@@ -62,14 +62,14 @@ int main(void)
 	mlx->win = mlx_new_window(mlx->mlx, RESO_X, RESO_Y, "wolf");
 	mlx->img = mlx_new_image(mlx->mlx, RESO_X, RESO_Y);
 	mlx->d_addr = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->sizeline, &mlx->endian);
-	D.dirx = 1;
-	D.diry = 0; //initial direction vector
+	D.dir.x = 1;
+	D.dir.y = 0; //initial direction vector
 	D.time = 0; //time of current frame
 	D.oldtime = 0; //time of previous frame
-	D.planex = -1;
-	D.planey = 0.1; //the 2d raycaster version of camera plane
-	D.posx = 1;
-	D.posy = 12;  //x and y start position
+	D.plane.x = 0;
+	D.plane.y = 0.66; //the 2d raycaster version of camera plane
+	D.pos.x = 22;
+	D.pos.y = 12;  //x and y start position
 
 
 
@@ -78,6 +78,7 @@ int main(void)
 //	timing(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	mlx_hook(mlx->win, 2, 1L << 0, key_hook, mlx);
+	mlx_do_key_autorepeaton(mlx->mlx);
 	mlx_loop(mlx->mlx);
 	return (0);
 }
@@ -91,10 +92,10 @@ void	do_it(t_mlx *mlx)
     {
       //calculate ray position and direction
       double cameraX = 2 * x / (double)RESO_X - 1; //x-coordinate in camera space
-      double rayPosX = D.posx;
-      double rayPosY = D.posy;
-      rayDirX = D.dirx + D.planex * cameraX;
-      rayDirY = D.diry + D.planey * cameraX;
+      double rayPosX = D.pos.x;
+      double rayPosY = D.pos.y;
+      rayDirX = D.dir.x + D.plane.x * cameraX;
+      rayDirY = D.dir.y + D.plane.y * cameraX;
 
        //which box of the map we're in
       int mapX = (int)rayPosX;
@@ -213,7 +214,7 @@ void	do_it(t_mlx *mlx)
       verLine(mlx, x, drawStart, drawEnd, rgb);
     }
 
-	print_map_pos((int)D.posx, (int)D.posy, (int)rayDirX, (int)rayDirY);
+	print_map_pos((int)D.pos.x, (int)D.pos.y, (int)rayDirX, (int)rayDirY);
 }
 /*
 void	timing(t_mlx *mlx)

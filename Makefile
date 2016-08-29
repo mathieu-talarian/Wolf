@@ -13,7 +13,7 @@
 NAME = wolf
 
 all:
-	gcc *.c -o $(NAME) -L./libft -I./libft -lft -lmlx -framework Appkit -framework OpenGL -lm
+	gcc *.c -o $(NAME) -L./libft -I./libft -lft -lmlx -framework Appkit -framework OpenGL -lm -L./minilibx_macos -I./minilibx_macos
 
 run: all
 	./$(NAME)
