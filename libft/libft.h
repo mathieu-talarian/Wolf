@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 16:12:22 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/06/03 19:42:27 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/01 18:59:07 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <fcntl.h>
 
 # define BUFF_SIZE 1024
 
@@ -119,5 +120,7 @@ int						ft_atoi_base(char *nbr, char *base_from);
 size_t					ft_len_nb(int nb);
 char					*ft_convert_base(char *nbr, char *base_from, \
 							char *base_to);
+
+int						ft_open_file(char *filename, int *fd);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/19 18:46:08 by mmoullec          #+#    #+#              #
-#    Updated: 2016/06/03 19:17:29 by mmoullec         ###   ########.fr        #
+#    Updated: 2016/09/01 18:57:04 by mmoullec         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,8 @@ ft_putendl_sp.c\
 get_next_line.c\
 ft_atoi_base.c\
 ft_convert_base.c\
-ft_len_nb.c
+ft_len_nb.c\
+ft_open_file.c
 
 
 OBJ = $(SRC:.c=.o)

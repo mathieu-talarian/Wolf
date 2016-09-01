@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_open_file.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/31 17:55:36 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/05/16 16:05:50 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/09/01 18:54:35 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/01 18:59:46 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+int				ft_open_file(char *filename, int *fd)
 {
-	if (new)
-	{
-		new->next = *alst;
-		*alst = new;
-	}
+	if ((*fd = open(filename, O_RDONLY)) < 0)
+		return (0);
+	return (1);
 }

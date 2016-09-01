@@ -1,22 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/03/31 17:55:36 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/05/16 16:05:50 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/09/01 18:53:50 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/01 20:09:32 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "wolf.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+int		no_data()
 {
-	if (new)
-	{
-		new->next = *alst;
-		*alst = new;
-	}
+	ft_putendl("Map empty");
+	return (0);
+}
+
+int		usage(void)
+{
+	ft_putendl("wolf : Usage");
+	ft_putendl("./wolf map.wolf");
+	return (0);
+}
+
+int		main(int ac, char **av)
+{
+	t_e *e;
+
+	if (ac != 2)
+		return (usage());
+	if (!(e = (t_e *)malloc(sizeof(t_e))))
+		return (0);
+	e->map = NULL;
+	if (!parsing_map(av[1], &e))
+		return (0);
+	do_wolf(e);
+	return (1);
 }
