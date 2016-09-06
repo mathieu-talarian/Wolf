@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 19:06:29 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/01 19:34:47 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/06 17:47:34 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_line		*new_line_list(int y, int x, char *nbr)
 	{
 		new->x = x;
 		new->y = y;
-		new->wall = nbr;
+		new->wall = ft_atoi(nbr);
 		new->next = NULL;
 	}
 	ft_strdel(tab);

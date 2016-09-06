@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   math.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 18:53:50 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/06 16:01:55 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/08/23 17:42:25 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/06 16:44:52 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		no_data()
+double			carre(double x)
 {
-	ft_putendl("Map empty");
-	return (0);
+	return (x * x);
 }
 
-int		usage(void)
+double			cube(double x)
 {
-	ft_putendl("wolf : Usage");
-	ft_putendl("./wolf map.wolf");
-	return (0);
+	return (x * x * x);
 }
 
-int		main(int ac, char **av)
+double			p_4(double x)
 {
-	t_e *e;
-
-	if (ac != 2)
-		return (usage());
-	if (!(e = (t_e *)malloc(sizeof(t_e))))
-		return (0);
-	e->map = NULL;
-	if (!parsing_map(av[1], &e))
-		return (0);
-	do_wolf(e);
-	return (1);
+	return (x * x * x * x);
 }

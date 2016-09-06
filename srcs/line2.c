@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 17:44:31 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/06 16:35:20 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/06 18:55:38 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void		put_color_to_pixel(t_mlx *mlx, t_l l, t_rgb rgb)
 	int				j;
 
 	j = (l.x * 4) + (l.y * mlx->sl);
-	mlx->d_a[j] = rgb.r;
+	mlx->d_a[j] = rgb.b;
 	mlx->d_a[++j] = rgb.g;
-	mlx->d_a[++j] = rgb.b;
+	mlx->d_a[++j] = rgb.r;
 }
 
 void		line_1(t_mlx *mlx, t_l l, t_rgb rgb)

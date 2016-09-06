@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 19:37:38 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/01 19:51:17 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/06 17:48:26 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void			print_line(t_line **ll)
 	l = *ll;
 	while (l)
 	{
-		printf(" |[%s]| ", l->wall);
+		printf(" |[%d]| ", l->wall);
 		l = l->next;
 	}
 }

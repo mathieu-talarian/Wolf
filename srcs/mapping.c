@@ -1,41 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mapping.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 18:53:50 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/06 16:01:55 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/09/06 16:02:02 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/06 17:53:18 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		no_data()
+int		mapping_x(t_line **line, int x)
 {
-	ft_putendl("Map empty");
+	t_line	*l;
+	int		ret = 0;
+
+	l = *line;
+	while (l)
+	{
+		if (l->x == x)
+			return (l->wall);
+		l = l->next;
+	}
 	return (0);
 }
 
-int		usage(void)
+int		mapping(t_map **map, int x, int y)
 {
-	ft_putendl("wolf : Usage");
-	ft_putendl("./wolf map.wolf");
+	t_map	*l;
+
+	l = *map;
+	while (l)
+	{
+		if (l->num_line == y)
+			return (mapping_x(&l->line, x));
+		l = l->next;
+	}
 	return (0);
 }
 
-int		main(int ac, char **av)
-{
-	t_e *e;
-
-	if (ac != 2)
-		return (usage());
-	if (!(e = (t_e *)malloc(sizeof(t_e))))
-		return (0);
-	e->map = NULL;
-	if (!parsing_map(av[1], &e))
-		return (0);
-	do_wolf(e);
-	return (1);
-}
