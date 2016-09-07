@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 15:41:06 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/06 19:59:44 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/07 21:13:19 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,44 +85,40 @@ void	wolf_3d(t_e *e)
 
       if (side == 0) perpWallDist = (mapX - raypos.x + (1 - stepX) / 2) / raydir.x;
       else           perpWallDist = (mapY - raypos.y + (1 - stepY) / 2) / raydir.y;
-
-      int lineHeight = (int)(RESO_Y / perpWallDist);
+	  printf("x-> %d | dist = %f\n", x, perpWallDist);
+	  int lineHeight;
+		if ((int)perpWallDist == 0)
+			lineHeight = RESO_Y - 1;
+		else
+			lineHeight = (int)(RESO_Y / perpWallDist);
 
       int drawStart = -lineHeight / 2 + RESO_Y / 2;
       if(drawStart < 0)drawStart = 0;
       int drawEnd = lineHeight / 2 + RESO_Y / 2;
-      if(drawEnd >= RESO_Y)drawEnd = e->h - 1;
-
-      t_rgb rgb;
-      rgb.r = 0;
-	  rgb.g = 0;
-	  rgb.b = 0;
-	  if (mapping(&e->map, mapX, mapY) == 1)
-		  rgb.r = 255;
-	  if (mapping(&e->map, mapX, mapY) == 2)
-		  rgb.g = 255;
-	  if (mapping(&e->map, mapX, mapY) == 3)
-		  rgb.b = 255;
-	  if (mapping(&e->map, mapX, mapY) == 4)
-	  {
-		  rgb.r = 255;
-		  rgb.g = 255;
-	  }
-      if (side == 1)
-	  {
-		rgb.r = rgb.r / 2;
-		rgb.g /= 2;
-		rgb.b /= 2;
-	  }
-		draw_line(e, x, drawStart, drawEnd, rgb);
-		rgb.r = ft_atoi_base("87", "123456789abcdef");
-		rgb.g = ft_atoi_base("ce", "123456789abcdef");
-		rgb.b = ft_atoi_base("ff", "123456789abcdef");
-		draw_line(e, x, 0, drawStart, rgb);
-		rgb.r = ft_atoi_base("2b", "123456789abcdef");
-		rgb.g = ft_atoi_base("2b", "123456789abcdef");
-		rgb.b = ft_atoi_base("2b", "123456789abcdef");
-		draw_line(e, x, drawEnd, RESO_Y - 1, rgb);
-	    
-    }
+      if(drawEnd >= RESO_Y)drawEnd = RESO_Y - 1;
+		printf("p = %f\n", perpWallDist);
+		t_hsv hsv;
+		if (perpWallDist > 10)
+			hsv.v = 0;
+		else
+		{
+			hsv.v = perpWallDist * 100 / 10;
+			printf("v = %u\n", hsv.v);
+		}
+		if (mapping(&e->map, mapX, mapY) == 1)
+			hsv.h = 0;
+		if (mapping(&e->map, mapX, mapY) == 2)
+			hsv.h = 120;
+		if (mapping(&e->map, mapX, mapY) == 3)
+			hsv.h = 240;
+		if (mapping(&e->map, mapX, mapY) == 4)
+			hsv.h = 60;
+		if (side == 1)
+			hsv.s = 50;
+		else
+			hsv.s = 100;
+	wall(e, x, drawStart, drawEnd, hsv);
+//	sky(e, drawStart, x, hsv.v);
+//	ground(e, drawEnd, x, hsv.v);
+	}
 }

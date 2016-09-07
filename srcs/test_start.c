@@ -1,42 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 18:53:50 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/07 21:13:26 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/09/07 12:03:10 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/07 12:13:24 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		no_data()
+int		find_new_start2(t_line **m, t_vect *s)
 {
-	ft_putendl("Map empty");
+	t_line *l;
+
+	l = *m;
+	while (l)
+	{
+		if (l->wall == 0)
+		{
+			s->x = l->x;
+			s->y = l->y;
+			return (1);
+		}
+		l = l->next;
+	}
 	return (0);
 }
 
-int		usage(void)
+void	find_new_start(t_vect *s, t_map **m)
 {
-	ft_putendl("wolf : Usage");
-	ft_putendl("./wolf map.wolf");
-	return (0);
+	t_map *l;
+
+	l = *m;
+	while (l)
+	{
+		if (find_new_start2(&l->line, s))
+			return ;
+		l = l->next;
+	}
 }
 
-int		main(int ac, char **av)
+void	test_start(t_e *e)
 {
-	t_e *e;
-
-	if (ac != 2)
-		return (usage());
-	if (!(e = (t_e *)malloc(sizeof(t_e))))
-		return (0);
-	e->map = NULL;
-	if (!parsing_map(av[1], &e))
-		return (0);
-	test_start(e);
-	do_wolf(e);
-	return (1);
+	if (e->start.x == -1 && e->start.y == -1)
+		find_new_start(&e->start, &e->map);
 }

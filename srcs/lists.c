@@ -6,44 +6,55 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 19:06:29 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/06 17:47:34 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/07 12:01:09 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void		fill_line_list(t_line **list, int num_line, char **tab)
+void		fill_line_list(t_line **list, int num_line, char **tab, t_vect *start)
 {
 	int		i;
 
 	i = 0;
 	while (tab[i])
 	{
-		line_list_add(list, new_line_list(num_line, i, tab[i]));
+		line_list_add(list, new_line_list(num_line, i, tab[i], start));
 		i++;
 	}
 }
 
-t_line		*new_line_list(int y, int x, char *nbr)
+t_line		*new_line_list(int y, int x, char *nbr, t_vect *start)
 {
 	t_line	*new;
 	char	**tab;
+	int		i;
 
+	i = 1;
 	tab = NULL;
 	if (!(new = (t_line *)malloc(sizeof(t_line))))
 		return (NULL);
+	if (ft_strcmp(nbr, "x") == 0)
+	{
+		start->x = x;
+		start->y = y;
+		i = 0;
+	}
 	if (new && nbr)
 	{
 		new->x = x;
 		new->y = y;
-		new->wall = ft_atoi(nbr);
+		if (i == 0)
+			new->wall = 0;
+		else
+			new->wall = ft_atoi(nbr);
 		new->next = NULL;
 	}
 	ft_strdel(tab);
 	return (new);
 }
 
-t_map		*new_data_list(int count_words, int num_line, char **tab)
+t_map		*new_data_list(int count_words, int num_line, char **tab, t_vect *start)
 {
 	t_map		*new;
 	int			i;
@@ -56,7 +67,7 @@ t_map		*new_data_list(int count_words, int num_line, char **tab)
 	{
 		new->num_line = num_line;
 		new->line = NULL;
-		fill_line_list(&new->line, num_line, tab);
+		fill_line_list(&new->line, num_line, tab, start);
 		new->next = NULL;
 	}
 	return (new);
