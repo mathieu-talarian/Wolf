@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 14:14:07 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/07 21:13:21 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/08 21:01:53 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,91 +22,101 @@ typedef struct	s_calcolor
 	long		i;
 }				t_cc;
 
-void	hsv_to_rgb(t_hsv h, t_rgb *r)
+t_rgb	hsv_to_rgb(t_hsv hsv)
 {
-	t_cc	c;
+	t_rgb rgb;
+	int ti;
+	double f, l, m, n;
 
-	if (h.s == 0)
+	if (hsv.s == 0)
 	{
-		r->r = h.h;
-		r->g = h.h;
-		r->b = h.h;
+		rgb.r = hsv.v;
+		rgb.g = hsv.v;
+		rgb.b = hsv.v;
+		rgb.r *= 255;
+		rgb.g *= 255;
+		rgb.b *= 255;
+		return (rgb);
 	}
-	c.hh = h.h;
-	if (c.hh >= 360.0)
-		c.hh = 0;
-	c.hh /= 60;
-	c.i = (long)c.hh;
-	c.ff = c.hh - c.i;
-	c.p = h.v * (1.0 - h.s);
-	c.q = h.v * (1.0 - (h.s * c.ff));
-	c.t = h.v * (1.0 - (h.s * (1.0 - c.ff)));
-	switch(c.i) {
+	ti = (int)(hsv.h / 6) % 6;
+	f = (hsv.h / 60) - ti;
+	l = hsv.v * (1 - hsv.s);
+	m = hsv.v * (1 - f * hsv.s);
+	n = hsv.v * (1 - (1 - f) * hsv.s);
+
+   switch (ti)
+    {
 		case 0:
-			r->r = h.v;
-			r->g = c.t;
-			r->b = c.p;
+			rgb.r = hsv.v; rgb.g = n; rgb.b = l;
 		break;
-		case 1:
-		r->r = c.q;
-		r->g = h.v;
-		r->b = c.p;
+        case 1:
+			rgb.r = m; rgb.g = hsv.v; rgb.b = l;
 		break;
 		case 2:
-		r->r = c.p;
-		r->g = h.v;
-		r->b = c.t;
+			rgb.r = l; rgb.g = hsv.v; rgb.b = n;
 		break;
 		case 3:
-		r->r = c.p;
-		r->g = c.q;
-		r->b = h.v;
+			rgb.r = l; rgb.g = m; rgb.b = hsv.v;
 		break;
 		case 4:
-		r->r = c.t;
-		r->g = c.p;
-		r->b = h.v;
+			rgb.r = n; rgb.g = l; rgb.b = hsv.v;
 		break;
-		case 5:
 		default:
-		r->r = h.v;
-		r->g = c.p;
-		r->b = c.q;
+		rgb.r = hsv.v; rgb.g = l; rgb.b = m;
 		break;
-				}
+	}
+		rgb.r *= 255;
+		rgb.g *= 255;
+		rgb.b *= 255;
+	return rgb;
 }
 
-void	sky(t_e *e, int ds, int x, int val)
+void	sky(t_e *e, int x)
 {
 	t_hsv hsv;
 	t_rgb rgb;
-	if (ds > 1)
+	t_l l;
+
+	double sw = (((RESO_Y / DIS_V) / 2 ));
+	double delta = 1 / (double)((RESO_Y  - sw) / 2);
+	hsv.h = 205;
+	hsv.s = 0.47;
+	l.x = x;
+	l.y = -1;
+	hsv.v = 1;
+
+	while (++l.y < RESO_Y / 2 && hsv.v >= 0)
 	{
-		hsv.h = 205;
-		hsv.s = 47;
-		hsv.v = val;
-		hsv_to_rgb(hsv, &rgb);
-		draw_line(e, x, 0, ds - 1, rgb);
+		hsv.v -= delta;
+		rgb = hsv_to_rgb(hsv);
+		put_color_to_pixel(e->mlx, l, rgb);
 	}
 }
 
-void	ground(t_e *e, int de, int x, int val)
+void	ground(t_e *e, int x)
 {
-	t_rgb rgb;
 	t_hsv hsv;
-	if (de < RESO_Y - 1)
+	t_rgb rgb;
+	t_l l;
+
+	double sw = (((RESO_Y / DIS_V) / 2));
+	double delta = 1 / (double)((RESO_Y  - sw) / 2);
+	hsv.h = 0;
+	hsv.s = 0;
+	l.x = x;
+	l.y = RESO_Y - 1;
+	hsv.v = 1;
+	while (--l.y > RESO_Y / 2 && hsv.v >= 0)
 	{
-		hsv.h = 0;
-		hsv.s = 0;
-		hsv.v = val;
-		hsv_to_rgb(hsv, &rgb);
-		draw_line(e, x, de + 1, RESO_Y - 1, rgb);
+		hsv.v -= delta;
+		rgb = hsv_to_rgb(hsv);
+		put_color_to_pixel(e->mlx, l, rgb);
 	}
 }
 
 void	wall(t_e *e, int x, int ds, int de, t_hsv hsv)
 {
 	t_rgb rgb;
-	hsv_to_rgb(hsv, &rgb);
+	rgb = hsv_to_rgb(hsv);
 	draw_line(e, x, ds, de, rgb);
 }

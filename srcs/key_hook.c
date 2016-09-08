@@ -6,105 +6,105 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 18:26:32 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/07 18:44:02 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/08 21:12:52 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 # define ABS(X) (x < 0 ? (x * -1) : x)
 
+void	mlx_img_to_black(t_mlx *mlx)
+{
+	t_l l;
+	t_rgb r;
+
+	r.r = 0;
+	r.g = 0;
+	r.b = 0;
+	l.y = -1;
+	while (++l.y < RESO_Y)
+	{
+		l.x = -1;
+		while (++l.x < RESO_X)
+		{
+			put_color_to_pixel(mlx, l, r);
+		}
+	}
+}
+
 void	rd(t_e *e)
 {
-	mlx_destroy_image(e->mlx->mlx, e->mlx->img);
-	e->mlx->img = mlx_new_image(e->mlx->mlx, RESO_X, RESO_Y);
-	e->mlx->d_a = mlx_get_data_addr(e->mlx->img, &e->mlx->bpp, &e->mlx->sl, &e->mlx->e);
-	wolf_3d(e);
-	mlx_put_image_to_window(e->mlx->mlx, e->mlx->win, e->mlx->img, 0, 0);
+	mlx_img_to_black(e->mlx);
+//	wolf_3d(e);
+//	mlx_put_image_to_window(e->mlx->mlx, e->mlx->win, e->mlx->img, 0, 0);
 }
 
-void	collision(t_map *map, t_vect *pos, t_vect oldpos)
+void	moove(t_e *e)
 {
-	printf("pos x = %f | y = %f\n", pos->x, pos->y);
-	printf("pos-int x = %d | y = %d\n", (int)pos->x, (int)pos->y);
-	printf("mapping = %d\n", mapping(&map, (int)pos->x,(int)pos->y));
-//	if (mapping(&map, (int)pos->x, (int)pos->y) != 0)
-//	{
-//		pos->x = oldpos.x;
-//		pos->y = oldpos.y;
-//	}
+	int n;
+
+	n = -1;
+	while (++n < 8)
+	{
+		if (e->c & (1u << n) && n == 1)
+			move_forward(&e->draw, e->map);
+		else if (e->c & (1u << n) && n == 2)
+			move_backward(&e->draw, e->map);
+		else if (e->c & (1u << n) && n == 3)
+			straf_left(&e->draw, e->map);
+		else if (e->c & (1u << n) && n == 4)
+			straf_right(&e->draw, e->map);
+		else if (e->c & (1u << n) && n == 5)
+			turn_left(&e->draw, e->map);
+		else if (e->c & (1u << n) && n == 6)
+			turn_right(&e->draw, e->map);
+	}
+	n = -1;
+	while (++n < 8)
+	{
+		if (e->c & (1u << n))
+			printf("1");
+		else
+			printf("0");
+	}
+	printf("\n");
+	rd(e);
 }
 
-void	mod(int keycode, t_draw *draw, t_map *map)
+int		key_release(int keycode, t_e *e)
 {
-	double	rotspeed = 0.3;
-	double	olddirx = draw->d.dirx;
-	double	oldplanex = draw->d.planex;
-	t_vect	oldpos;
-	
-	oldpos.x = E.pos.x;
-	oldpos.y = E.pos.y;
+	if (keycode == 13)
+		e->c ^= MF;
+	else if (keycode == 1)
+		e->c ^= MB;
+	else if (keycode == 123)
+		e->c ^= ML;
+	else if (keycode == 124)
+		e->c ^= MR;
+	else if (keycode == 0)
+		e->c ^= TL;
+	else if (keycode == 2)
+		e->c ^= TR;
+	moove(e);
+	return (0);
+}
+
+int		key_press(int keycode, t_e *e)
+{
 	if (keycode == 53)
 		exit (0);
-	if (keycode == 13)
-	{
-		if (mapping(&map, (int)(E.pos.x + E.dirx * E.movespeed), (int)E.pos.y) == 0)
-			E.pos.x += E.dirx * E.movespeed;
-		if (mapping(&map, (int)E.pos.x, (int)(E.pos.y + E.diry * E.movespeed)) == 0)
-			E.pos.y += E.diry * E.movespeed;
-	}
+	else if (keycode == 13)
+		e->c |= MF;
 	else if (keycode == 1)
-	{
-		if (mapping(&map, (int)(E.pos.x - E.dirx * E.movespeed), (int)E.pos.y) == 0)
-			E.pos.x -= E.dirx * E.movespeed;
-		if (mapping(&map, (int)E.pos.x, (int)(E.pos.y - E.diry * E.movespeed)) == 0)
-			E.pos.y -= E.diry * E.movespeed;
-	}
+		e->c |= MB;
 	else if (keycode == 123)
-	{
-		if (mapping(&map, (int)(E.pos.x -= E.planex * E.movespeed), (int)E.pos.y) == 0)
-			E.pos.x -= E.planex * E.movespeed;
-		else 
-			E.pos.x = oldpos.x;
-		if (mapping(&map, (int)E.pos.x, (int)(E.pos.y -= E.planey * E.movespeed)) == 0)
-			E.pos.y -= E.planey * E.movespeed;
-		else 
-			E.pos.y = oldpos.y;
-	}
+		e->c |= ML;
 	else if (keycode == 124)
-	{
-		if (mapping(&map, (int)(E.pos.x += E.planex * E.movespeed), (int)E.pos.y) == 0)
-			E.pos.x += E.planex * E.movespeed;
-		else 
-			E.pos.x = oldpos.x;
-		if (mapping(&map, (int)E.pos.x, (int)(E.pos.y += E.planey * E.movespeed)) == 0)
-			E.pos.y += E.planey * E.movespeed;
-		else 
-			E.pos.y = oldpos.y;
-	}
+		e->c |= MR;
 	else if (keycode == 0)
-	{
-		olddirx = E.dirx;
-		oldplanex = E.planex;
-		E.dirx = E.dirx * cos(-rotspeed) - E.diry * sin(-rotspeed);
-		E.diry = olddirx * sin(-rotspeed) + E.diry * cos(-rotspeed);
-		E.planex = E.planex * cos(-rotspeed) - E.planey * sin(-rotspeed);
-		E.planey = oldplanex * sin(-rotspeed) + E.planey * cos(-rotspeed);
-	}
+		e->c |= TL;
 	else if (keycode == 2)
-	{
-		olddirx = E.dirx;
-		oldplanex = E.planex;
-		E.dirx = E.dirx * cos(rotspeed) - E.diry * sin(rotspeed);
-		E.diry = olddirx * sin(rotspeed) + E.diry * cos(rotspeed);
-		E.planex = E.planex * cos(rotspeed) - E.planey * sin(rotspeed);
-		E.planey = oldplanex * sin(rotspeed) + E.planey * cos(rotspeed);
-	}
-	collision(map, &E.pos, oldpos);
-}
-
-int		key_hook(int keycode, t_e *e)
-{
-	mod(keycode, &e->draw, e->map);
-	rd(e);
+		e->c |= TR;
+	moove(e);
 	return (0);
 }

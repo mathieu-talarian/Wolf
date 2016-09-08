@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/07 21:13:24 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/08 21:22:06 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define RESO_X 1024
 # define RESO_Y 768
+# define DIS_V 10
 
 # include "../libft/libft.h"
 # include <mlx.h>
@@ -27,6 +28,15 @@
 # define Y e->draw.d
 # define ABS(X) (x < 0 ? (x * -1) : x)
 
+# define MF (1u<<1)
+# define MB (1u<<2)
+# define ML (1u<<3)
+# define MR (1u<<4)
+# define TL (1u<<5)
+# define TR (1u<<6)
+# define G (1u<<7)
+# define H (1u<<0)
+
 typedef struct		s_vect
 {
 	double			x;
@@ -35,16 +45,16 @@ typedef struct		s_vect
 
 typedef struct		s_rgb
 {
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
+	double			r;
+	double			g;
+	double			b;
 }					t_rgb;
 
 typedef struct		s_hsv
 {
-	unsigned int	h;
-	unsigned int	s;
-	unsigned int	v;
+	double			h;
+	double			s;
+	double			v;
 }					t_hsv;
 
 typedef struct		s_line
@@ -120,6 +130,7 @@ typedef struct		s_e
 	t_map			*map;
 	int				h;
 	int				w;
+	char			c;
 	t_vect			start;
 	t_draw			draw;
 }					t_e;
@@ -168,10 +179,24 @@ void	line_1(t_mlx *mlx, t_l l, t_rgb rgb);
 void	line_2(t_mlx *mlx, t_l l, t_rgb rgb);
 
 void	wolf_3d(t_e *e);
-int		key_hook(int keycode, t_e *e);
 
 void	test_start(t_e *e);
-void	sky(t_e *e, int ds, int x, int sat);
-void	ground(t_e *e, int de, int x, int sat);
+void	sky(t_e *e, int x);
+void	ground(t_e *e, int x);
 void	wall(t_e *e, int x, int ds, int de, t_hsv hsv);
+
+int		key_press(int keycode, t_e *e);
+int		key_release(int keycode, t_e *e);
+int		no_event(t_e *e);
+
+/*
+**movement
+*/
+void	move_forward(t_draw *draw, t_map *map);
+void	move_backward(t_draw *draw, t_map *map);
+void	straf_left(t_draw *draw, t_map *map);
+void	straf_right(t_draw *draw, t_map *map);
+void	turn_left(t_draw *d, t_map *m);
+void	turn_right(t_draw *d, t_map *m);
+void	moove(t_e *e);
 #endif

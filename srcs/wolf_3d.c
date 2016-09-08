@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 15:41:06 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/07 21:13:19 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/08 21:02:19 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ void	wolf_3d(t_e *e)
 	t_vect			raypos;
 	t_vect			sidedist;
 	t_vect			deltadist;
-
+	x = -1;
+	while (++x < RESO_X)
+	{
+		sky(e, x);
+		ground(e, x);
+	}
 	x = -1;
 	while (++x < RESO_X)
 	{
@@ -85,26 +90,21 @@ void	wolf_3d(t_e *e)
 
       if (side == 0) perpWallDist = (mapX - raypos.x + (1 - stepX) / 2) / raydir.x;
       else           perpWallDist = (mapY - raypos.y + (1 - stepY) / 2) / raydir.y;
-	  printf("x-> %d | dist = %f\n", x, perpWallDist);
 	  int lineHeight;
 		if ((int)perpWallDist == 0)
 			lineHeight = RESO_Y - 1;
 		else
 			lineHeight = (int)(RESO_Y / perpWallDist);
-
-      int drawStart = -lineHeight / 2 + RESO_Y / 2;
-      if(drawStart < 0)drawStart = 0;
-      int drawEnd = lineHeight / 2 + RESO_Y / 2;
-      if(drawEnd >= RESO_Y)drawEnd = RESO_Y - 1;
-		printf("p = %f\n", perpWallDist);
-		t_hsv hsv;
-		if (perpWallDist > 10)
+		int drawStart = -lineHeight / 2 + RESO_Y / 2;
+		if(drawStart < 0)drawStart = 0;
+			int drawEnd = lineHeight / 2 + RESO_Y / 2;
+		if(drawEnd >= RESO_Y)drawEnd = RESO_Y - 1;
+			t_hsv hsv;
+		hsv.v = 1;
+		if (perpWallDist > DIS_V)
 			hsv.v = 0;
-		else
-		{
-			hsv.v = perpWallDist * 100 / 10;
-			printf("v = %u\n", hsv.v);
-		}
+	else
+		hsv.v = perpWallDist / - DIS_V + 1;
 		if (mapping(&e->map, mapX, mapY) == 1)
 			hsv.h = 0;
 		if (mapping(&e->map, mapX, mapY) == 2)
@@ -114,11 +114,9 @@ void	wolf_3d(t_e *e)
 		if (mapping(&e->map, mapX, mapY) == 4)
 			hsv.h = 60;
 		if (side == 1)
-			hsv.s = 50;
+			hsv.s = 0.5;
 		else
-			hsv.s = 100;
-	wall(e, x, drawStart, drawEnd, hsv);
-//	sky(e, drawStart, x, hsv.v);
-//	ground(e, drawEnd, x, hsv.v);
+			hsv.s = 1;
+		wall(e, x, drawStart, drawEnd, hsv);
 	}
 }
