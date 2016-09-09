@@ -31,8 +31,9 @@ int				fill_list(int fd, char **line, t_map **map, t_vect *start)
 			return (-1);
 		tab = ft_strsplit(*line, ' ');
 		data_list_add(map, new_data_list(j, k, tab, start));
-//		tab_clr(&tab);
+		tab_clr(&tab);
 		k++;
+		ft_strdel(line);
 	}
 	if (j == 0)
 		return (-1);

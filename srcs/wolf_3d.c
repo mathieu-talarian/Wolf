@@ -20,11 +20,11 @@ void	wolf_3d(t_e *e)
 	t_vect			sidedist;
 	t_vect			deltadist;
 	x = -1;
-	while (++x < RESO_X)
-	{
-		sky(e, x);
-		ground(e, x);
-	}
+//	while (++x < RESO_X)
+//	{
+//		sky(e, x);
+//		ground(e, x);
+//	}
 	x = -1;
 	while (++x < RESO_X)
 	{

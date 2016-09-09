@@ -29,6 +29,7 @@ int		main(int ac, char **av)
 {
 	t_e *e;
 
+	e = NULL;
 	if (ac != 2)
 		return (usage());
 	if (!(e = (t_e *)malloc(sizeof(t_e))))

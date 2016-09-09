@@ -18,7 +18,7 @@ void	turn_left(t_draw *draw, t_map *map)
 	double oldplanex;
 	double rotspeed;
 
-	rotspeed = 0.2;
+	rotspeed = 0.1;
 	olddirx = E.dirx;
 	oldplanex = E.planex;
 	E.dirx = E.dirx * cos(-rotspeed) - E.diry * sin(-rotspeed);
@@ -33,7 +33,7 @@ void	turn_right(t_draw *draw, t_map *map)
 	double oldplanex;
 	double rotspeed;
 
-	rotspeed = 0.2;
+	rotspeed = 0.1;
 	olddirx = E.dirx;
 	oldplanex = E.planex;
 	olddirx = E.dirx;

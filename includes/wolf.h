@@ -157,6 +157,7 @@ t_map		*new_data_list(int count_words, int num_line, char **tab, \
 t_line		*new_line_list(int y, int x, char *nbr, t_vect *start);
 void		fill_line_list(t_line **list, int num_line, char **tab, t_vect *start);
 int			fill_size(t_map **m, int *w, int *h);
+void		tab_clr(char ***tab);
 
 
 
