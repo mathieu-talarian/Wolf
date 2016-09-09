@@ -6,11 +6,18 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 20:00:18 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/08 23:56:32 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/09 15:38:58 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+void		print_datas(t_draw *draw)
+{
+	printf("dirx %f | diry %f\n", E.dirx, E.diry);
+	printf("planex %f | planey %f\n", E.planex, E.planey);
+	printf("posx %f | posy %f\n", E.pos.x, E.pos.y);
+}
 
 t_mlx		*initialize_mlx(t_vect s, t_draw *draw)
 {
@@ -29,12 +36,13 @@ t_mlx		*initialize_mlx(t_vect s, t_draw *draw)
 	E.planey = 0.66; //the 2d raycaster version of camera plane
 	E.pos.x = s.x;
 	E.pos.y = s.y;  //x and y start position
-	E.movespeed = 0.2;
+	E.movespeed = 0.1;
 	return (mlx);
 }
 
 int	do_wolf_3d(t_e *e)
 {
+//	print_datas(&e->draw);
 	moove(e);
 	wolf_3d(e);
 	mlx_put_image_to_window(M, W, I, 0, 0);
@@ -44,10 +52,8 @@ int	do_wolf_3d(t_e *e)
 void		do_wolf(t_e *e)
 {
 	e->c = 0;
-	print_map(&e->map);
 	e->mlx = initialize_mlx(e->start, &e->draw);
 	int x = -1;
-//	wolf_3d(e);
 	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
 	mlx_hook(W, 2, 1L << 0, key_press, e);
 	mlx_hook(W, 3, 1L << 1, key_release, e);

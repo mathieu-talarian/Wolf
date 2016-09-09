@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/08 21:22:06 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:54:33 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,9 @@ int		mapping(t_map **map, int x, int y);
 /*
 **erreurs
 */
-int		usage(void);
+int		u00sage(void);
 int		no_data();
+int		small_map(char *fn);
 
 /*
 **listing
@@ -180,6 +181,7 @@ void	line_1(t_mlx *mlx, t_l l, t_rgb rgb);
 void	line_2(t_mlx *mlx, t_l l, t_rgb rgb);
 
 void	wolf_3d(t_e *e);
+void	rd(t_e *e);
 
 void	test_start(t_e *e);
 void	sky(t_e *e, int x);
@@ -200,4 +202,6 @@ void	straf_right(t_draw *draw, t_map *map);
 void	turn_left(t_draw *d, t_map *m);
 void	turn_right(t_draw *d, t_map *m);
 void	moove(t_e *e);
+
+void	open_door(t_e *e);
 #endif

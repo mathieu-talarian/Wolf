@@ -6,38 +6,11 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 18:26:32 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/08 23:56:33 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:54:29 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-# define ABS(X) (x < 0 ? (x * -1) : x)
-
-void	mlx_img_to_black(t_mlx *mlx)
-{
-	t_l l;
-	t_rgb r;
-
-	r.r = 0;
-	r.g = 0;
-	r.b = 0;
-	l.y = -1;
-	while (++l.y < RESO_Y)
-	{
-		l.x = -1;
-		while (++l.x < RESO_X)
-		{
-			put_color_to_pixel(mlx, l, r);
-		}
-	}
-}
-
-void	rd(t_e *e)
-{
-	mlx_img_to_black(e->mlx);
-//	wolf_3d(e);
-//	mlx_put_image_to_window(e->mlx->mlx, e->mlx->win, e->mlx->img, 0, 0);
-}
 
 void	moove(t_e *e)
 {
@@ -59,15 +32,6 @@ void	moove(t_e *e)
 		else if (e->c & (1u << n) && n == 6)
 			turn_right(&e->draw, e->map);
 	}
-	n = -1;
-	while (++n < 8)
-	{
-		if (e->c & (1u << n))
-			printf("1");
-		else
-			printf("0");
-	}
-	printf("\n");
 	rd(e);
 }
 
@@ -93,6 +57,8 @@ int		key_press(int keycode, t_e *e)
 {
 	if (keycode == 53)
 		exit (0);
+	else if (keycode == 49)
+		open_door(e);
 	else if (keycode == 13)
 		e->c |= MF;
 	else if (keycode == 1)

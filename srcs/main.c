@@ -6,11 +6,19 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:53:50 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/08 23:56:34 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/09 15:08:57 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+int		small_map(char *fn)
+{
+	ft_putstr("Map ");
+	ft_putstr(fn);
+	ft_putendl(" too small.");
+	return (0);
+}
 
 int		no_data()
 {

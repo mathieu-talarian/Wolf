@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 15:41:06 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/08 21:02:19 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/09 16:54:30 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ void	wolf_3d(t_e *e)
 		if(drawEnd >= RESO_Y)drawEnd = RESO_Y - 1;
 			t_hsv hsv;
 		hsv.v = 1;
-		if (perpWallDist > DIS_V)
-			hsv.v = 0;
-	else
-		hsv.v = perpWallDist / - DIS_V + 1;
+//		if (perpWallDist > DIS_V)
+//			hsv.v = 0;
+//	else
+//		hsv.v = perpWallDist / - DIS_V + 1;
 		if (mapping(&e->map, mapX, mapY) == 1)
 			hsv.h = 0;
 		if (mapping(&e->map, mapX, mapY) == 2)

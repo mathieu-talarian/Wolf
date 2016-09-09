@@ -1,50 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_start.c                                       :+:      :+:    :+:   */
+/*   rd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/07 12:03:10 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/09 15:01:49 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/09/09 15:30:42 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/09 15:37:58 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		find_new_start2(t_line **m, t_vect *s)
+void	mlx_img_to_black(t_mlx *mlx)
 {
-	t_line *l;
+	t_l l;
+	t_rgb r;
 
-	l = *m;
-	while (l)
+	r.r = 0;
+	r.g = 0;
+	r.b = 0;
+	l.y = -1;
+	while (++l.y < RESO_Y)
 	{
-		if (l->wall == 0)
+		l.x = -1;
+		while (++l.x < RESO_X)
 		{
-			s->x = l->x;
-			s->y = l->y;
-			return (1);
+			put_color_to_pixel(mlx, l, r);
 		}
-		l = l->next;
-	}
-	return (0);
-}
-
-void	find_new_start(t_vect *s, t_map **m)
-{
-	t_map *l;
-
-	l = *m;
-	while (l)
-	{
-		if (find_new_start2(&l->line, s))
-			return ;
-		l = l->next;
 	}
 }
 
-void	test_start(t_e *e)
+void	rd(t_e *e)
 {
-	if (e->start.x == -1 && e->start.y == -1)
-		find_new_start(&e->start, &e->map);
+	mlx_img_to_black(e->mlx);
 }

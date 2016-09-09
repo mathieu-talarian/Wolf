@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:45:54 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/07 21:13:26 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/09 15:29:57 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int				fill_list(int fd, char **line, t_map **map, t_vect *start)
 	}
 	if (j == 0)
 		return (-1);
-//	ft_tabdel(&tab);*/
 	return (1);
 }
 
@@ -65,11 +64,10 @@ int		parsing_map(char *filename, t_e **ll)
 		return (usage());
 	if (!(start_fill(fd, &e->map, &e->start)))
 		return (no_data());
-//	print_map(&e->map);
 	if (!fill_size(&e->map, &e->w, &e->h))
 		return (no_data());;
-	printf("%d|%d\n", e->w, e->h);
-/*	if (fdf_length(e->map) < 0)
-		return (0);*/
+	printf("%d <-> %d\n", e->w, e->h);
+	if (e->w < 2 || e->h < 2)
+		return (small_map(filename));
 	return (1);
 }
