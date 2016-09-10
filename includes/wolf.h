@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/09 16:54:33 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/10 20:12:46 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define TL (1u<<5)
 # define TR (1u<<6)
 # define G (1u<<7)
-# define H (1u<<0)
+# define RUN (1u<<0)
 
 typedef struct		s_vect
 {
@@ -115,6 +115,7 @@ typedef struct	s_d
 	double		time;
 	double		oldtime;
 	double		movespeed;
+	int			acceleration;
 }				t_d;
 
 typedef struct		s_draw
@@ -124,9 +125,21 @@ typedef struct		s_draw
 	t_d				d;
 }					t_draw;
 
+typedef struct		s_xpm
+{
+	void			*img;
+	char			*d_a;
+	int				x;
+	int				y;
+	int				sl;
+	int				bpp;
+	int				e;
+}					t_xpm;
+
 typedef struct		s_e
 {
 	t_mlx			*mlx;
+	t_xpm			*xpm;
 	t_map			*map;
 	int				h;
 	int				w;
@@ -144,7 +157,7 @@ int		mapping(t_map **map, int x, int y);
 /*
 **erreurs
 */
-int		u00sage(void);
+int		usage(void);
 int		no_data();
 int		small_map(char *fn);
 
@@ -204,4 +217,8 @@ void	turn_right(t_draw *d, t_map *m);
 void	moove(t_e *e);
 
 void	open_door(t_e *e);
+
+t_xpm	*skybox(t_mlx *m);
+
+void	cpy_img(t_mlx *mlx, t_xpm *x);
 #endif

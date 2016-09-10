@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 15:41:06 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/09 16:54:30 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/10 20:12:45 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 void	wolf_3d(t_e *e)
 {
+	printf("%f\n", e->draw.d.dirx);
+	printf("cos = %f\n", cos(e->draw.d.dirx));
+	printf("sin = %f\n", sin(e->draw.d.dirx));
 	unsigned int	x;
 	t_vect			raydir;
 	t_vect			raypos;
 	t_vect			sidedist;
 	t_vect			deltadist;
 	x = -1;
+	cpy_img(e->mlx, e->xpm);
 //	while (++x < RESO_X)
 //	{
 //		sky(e, x);

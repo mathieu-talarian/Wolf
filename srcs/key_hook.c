@@ -6,17 +6,26 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 18:26:32 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/09 16:54:29 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/10 16:24:12 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+void	acc(char c, t_draw *draw)
+{
+	if (c & (1u << 0))
+		E.acceleration = 3;
+	else
+		E.acceleration = 1;
+}
 
 void	moove(t_e *e)
 {
 	int n;
 
 	n = -1;
+	acc(e->c, &e->draw);
 	while (++n < 8)
 	{
 		if (e->c & (1u << n) && n == 1)
@@ -39,6 +48,8 @@ int		key_release(int keycode, t_e *e)
 {
 	if (keycode == 13)
 		e->c ^= MF;
+	else if (keycode == 257)
+		e->c ^= RUN;
 	else if (keycode == 1)
 		e->c ^= MB;
 	else if (keycode == 123)
@@ -59,6 +70,8 @@ int		key_press(int keycode, t_e *e)
 		exit (0);
 	else if (keycode == 49)
 		open_door(e);
+	else if (keycode == 257)
+		e->c |= RUN;
 	else if (keycode == 13)
 		e->c |= MF;
 	else if (keycode == 1)

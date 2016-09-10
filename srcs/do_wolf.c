@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 20:00:18 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/09 15:38:58 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/10 20:12:47 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_mlx		*initialize_mlx(t_vect s, t_draw *draw)
 	E.pos.x = s.x;
 	E.pos.y = s.y;  //x and y start position
 	E.movespeed = 0.1;
+	E.acceleration = 1;
 	return (mlx);
 }
 
@@ -54,6 +55,7 @@ void		do_wolf(t_e *e)
 	e->c = 0;
 	e->mlx = initialize_mlx(e->start, &e->draw);
 	int x = -1;
+	e->xpm = skybox(e->mlx);
 	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
 	mlx_hook(W, 2, 1L << 0, key_press, e);
 	mlx_hook(W, 3, 1L << 1, key_release, e);
