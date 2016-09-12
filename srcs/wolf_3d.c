@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 15:41:06 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/10 20:22:09 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/12 20:32:09 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	wolf_3d(t_e *e)
 	t_vect			sidedist;
 	t_vect			deltadist;
 	x = -1;
-	cpy_img(e->mlx, e->xpm);
+	if (e->list)
+		cpy_img(e->mlx, (t_xpm *)e->list->content);
 //	while (++x < RESO_X)
 //	{
 //		sky(e, x);

@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/10 17:35:19 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/10 20:24:52 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/12 20:32:07 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,29 @@ void	cpy_img(t_mlx *m, t_xpm *p)
 	int y = -1;
 
 	if (p)
-	{
-		while (++y < RESO_Y)
-		{
-			x = -1;
-			while (++x < RESO_X)
-				cpy_color(m, p, x, y);
-		}
-	}
+		printf("%s\n", p->fn);
+//	{
+//		while (++y < RESO_Y)
+//		{
+//			x = -1;
+//			while (++x < RESO_X)
+//				cpy_color(m, p, x, y);
+//		}
+//	}
 
 }
 
-t_xpm		*skybox(t_mlx *mlx)
+t_xpm		*find_xpm(t_mlx *mlx, char *fn)
 {
 	t_xpm *x;
 	x = (t_xpm *)malloc(sizeof(t_xpm));
-	x->img = mlx_xpm_file_to_image(mlx->mlx, "./sb.xpm", &x->x, &x->y);
+	x->img = mlx_xpm_file_to_image(mlx->mlx, fn, &x->x, &x->y);
 	if (x->img == NULL)
+	{
+		free (x);
 		return (NULL);
+	}
+	x->fn = ft_strdup(fn);
 	x->d_a = mlx_get_data_addr(x->img, &x->bpp, &x->sl, &x->e);
 	return (x);
 }

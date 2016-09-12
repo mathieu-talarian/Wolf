@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 18:53:50 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/12 20:05:37 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/09/12 18:40:42 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/12 18:42:28 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		main(int ac, char **av)
+int		small_map(char *fn)
 {
-	t_e *e;
+	ft_putstr("Map ");
+	ft_putstr(fn);
+	ft_putendl(" too small.");
+	return (0);
+}
 
-	e = NULL;
-//	if (ac != 2)
-//		return (usage());
-	if (!(e = (t_e *)malloc(sizeof(t_e))))
-		return (0);
-	e->map = NULL;
-	if (!parsing_map(av[1], &e))
-		return (0);
-	test_start(e);
-	do_wolf(e, av);
-	return (1);
+int		no_data()
+{
+	ft_putendl("Map empty");
+	return (0);
+}
+int		usage(void)
+{
+	ft_putendl("wolf : Usage");
+	ft_putendl("./wolf map.wolf");
+	return (0);
 }

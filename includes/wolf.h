@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/10 20:12:46 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/12 20:27:17 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct		s_xpm
 {
 	void			*img;
 	char			*d_a;
+	char			*fn;
 	int				x;
 	int				y;
 	int				sl;
@@ -139,7 +140,7 @@ typedef struct		s_xpm
 typedef struct		s_e
 {
 	t_mlx			*mlx;
-	t_xpm			*xpm;
+	t_list			*list;
 	t_map			*map;
 	int				h;
 	int				w;
@@ -178,7 +179,7 @@ void		tab_clr(char ***tab);
 void			print_map(t_map **map);
 
 
-void			do_wolf(t_e *e);
+void			do_wolf(t_e *e, char **av);
 void			wolf_3d(t_e *e);
 /*
 **maths
@@ -218,7 +219,9 @@ void	moove(t_e *e);
 
 void	open_door(t_e *e);
 
-t_xpm	*skybox(t_mlx *m);
+t_xpm	*find_xpm(t_mlx *m, char *fn);
 
 void	cpy_img(t_mlx *mlx, t_xpm *x);
+
+int		red_button(t_e *e);
 #endif

@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/01 18:53:50 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/12 20:05:37 by mmoullec         ###   ########.fr       */
+/*   Created: 2016/09/12 16:36:08 by mmoullec          #+#    #+#             */
+/*   Updated: 2016/09/12 18:40:12 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int		main(int ac, char **av)
+int		red_button(t_e *e)
 {
-	t_e *e;
-
-	e = NULL;
-//	if (ac != 2)
-//		return (usage());
-	if (!(e = (t_e *)malloc(sizeof(t_e))))
-		return (0);
-	e->map = NULL;
-	if (!parsing_map(av[1], &e))
-		return (0);
-	test_start(e);
-	do_wolf(e, av);
-	return (1);
+	exit (0);
+	return (0);
 }
