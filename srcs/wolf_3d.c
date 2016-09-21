@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 15:41:06 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/12 20:32:09 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/21 17:52:06 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,23 @@
 
 void	wolf_3d(t_e *e)
 {
-	printf("%f\n", e->draw.d.dirx);
-	printf("cos = %f\n", cos(e->draw.d.dirx));
-	printf("sin = %f\n", sin(e->draw.d.dirx));
+//	printf("%f\n", e->draw.d.dirx);
+//	printf("cos = %f\n", cos(e->draw.d.dirx));
+//	printf("sin = %f\n", sin(e->draw.d.dirx));
 	unsigned int	x;
+	int				y;
 	t_vect			raydir;
 	t_vect			raypos;
 	t_vect			sidedist;
 	t_vect			deltadist;
 	x = -1;
-	if (e->list)
-		cpy_img(e->mlx, (t_xpm *)e->list->content);
+	if (e->lxpm)
+		cpy_img(e->mlx, &e->lxpm);
+	t_lxpm *sto;
+	sto = return_xpm(&e->lxpm, "./image/greystone.xpm");
+	t_lxpm *pi;
+	pi = return_xpm(&e->lxpm, "./image/pillar.xpm");
+//	print_x(&e->lxpm);
 //	while (++x < RESO_X)
 //	{
 //		sky(e, x);
@@ -93,12 +99,13 @@ void	wolf_3d(t_e *e)
         if (mapping(&e->map, mapX, mapY) > 0) hit = 1;
       } 
 
-      if (side == 0) perpWallDist = (mapX - raypos.x + (1 - stepX) / 2) / raydir.x;
-      else           perpWallDist = (mapY - raypos.y + (1 - stepY) / 2) / raydir.y;
+      if (side == 0) 
+		  perpWallDist = (mapX - raypos.x + (1 - stepX) / 2) / raydir.x;
+      else           
+		  perpWallDist = (mapY - raypos.y + (1 - stepY) / 2) / raydir.y;
+	  if (perpWallDist == 0)
+		  perpWallDist = 1;
 	  int lineHeight;
-		if ((int)perpWallDist == 0)
-			lineHeight = RESO_Y - 1;
-		else
 			lineHeight = (int)(RESO_Y / perpWallDist);
 		int drawStart = -lineHeight / 2 + RESO_Y / 2;
 		if(drawStart < 0)drawStart = 0;
@@ -111,8 +118,45 @@ void	wolf_3d(t_e *e)
 //	else
 //		hsv.v = perpWallDist / - DIS_V + 1;
 		if (mapping(&e->map, mapX, mapY) == 1)
-			hsv.h = 0;
-		if (mapping(&e->map, mapX, mapY) == 2)
+		{
+			double wallX;
+			if (side == 0) 
+				wallX = raypos.y + (double)(perpWallDist * raydir.y);
+			else
+				wallX = raypos.x + (double)(perpWallDist * raydir.x);
+			wallX -= floor(wallX);
+			t_vect tex;
+			tex.x = (int)(wallX * (double)sto->x);
+			if (side == 0 && raydir.x > 0) tex.x = sto->x - tex.x - 1;
+			if (side == 1 && raydir.y < 0) tex.x = sto->x - tex.x - 1;
+			for (y = drawStart; y < drawEnd; y++)
+			{
+				int d = y * 256 - RESO_Y * 128 + lineHeight * 128;
+				tex.y = ((d * sto->y) / lineHeight) / 256;
+				draw_texture(e->mlx, sto, x, y, tex);
+			}
+		}
+		else if (mapping(&e->map, mapX, mapY) == 2)
+		{
+			double wallX;
+			if (side == 0) 
+				wallX = raypos.y + (double)(perpWallDist * raydir.y);
+			else
+				wallX = raypos.x + (double)(perpWallDist * raydir.x);
+			wallX -= floor(wallX);
+			t_vect tex;
+			tex.x = (int)(wallX * (double)pi->x);
+			if (side == 0 && raydir.x > 0) tex.x = pi->x - tex.x - 1;
+			if (side == 1 && raydir.y < 0) tex.x = pi->x - tex.x - 1;
+			for (y = drawStart; y < drawEnd; y++)
+			{
+				int d = y * 256 - RESO_Y * 128 + lineHeight * 128;
+				tex.y = ((d * pi->y) / lineHeight) / 256;
+				draw_texture(e->mlx, pi, x, y, tex);
+			}
+		}
+		else
+		{
 			hsv.h = 120;
 		if (mapping(&e->map, mapX, mapY) == 3)
 			hsv.h = 240;
@@ -123,5 +167,6 @@ void	wolf_3d(t_e *e)
 		else
 			hsv.s = 1;
 		wall(e, x, drawStart, drawEnd, hsv);
+		}
 	}
 }

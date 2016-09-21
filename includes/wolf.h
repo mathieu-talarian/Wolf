@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/12 20:27:17 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/21 17:52:07 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ typedef struct		s_draw
 	t_d				d;
 }					t_draw;
 
-typedef struct		s_xpm
+typedef struct		s_lxpm
 {
 	void			*img;
 	char			*d_a;
@@ -135,12 +135,13 @@ typedef struct		s_xpm
 	int				sl;
 	int				bpp;
 	int				e;
-}					t_xpm;
+	struct s_lxpm	*next;
+}					t_lxpm;
 
 typedef struct		s_e
 {
 	t_mlx			*mlx;
-	t_list			*list;
+	t_lxpm			*lxpm;
 	t_map			*map;
 	int				h;
 	int				w;
@@ -194,7 +195,6 @@ void	put_color_to_pixel(t_mlx *mlx, t_l l, t_rgb rgb);
 void	line_1(t_mlx *mlx, t_l l, t_rgb rgb);
 void	line_2(t_mlx *mlx, t_l l, t_rgb rgb);
 
-void	wolf_3d(t_e *e);
 void	rd(t_e *e);
 
 void	test_start(t_e *e);
@@ -219,9 +219,18 @@ void	moove(t_e *e);
 
 void	open_door(t_e *e);
 
-t_xpm	*find_xpm(t_mlx *m, char *fn);
-
-void	cpy_img(t_mlx *mlx, t_xpm *x);
-
 int		red_button(t_e *e);
+
+/*
+**xpm
+*/
+t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn);
+void		lstxpmadd(t_lxpm **begin_list, t_lxpm *nw);
+int			fill_xpm(t_e **ll, char **av);
+void	cpy_img(t_mlx *mlx, t_lxpm **x);
+t_lxpm		*return_xpm(t_lxpm **p, char *fn);
+
+void		draw_texture(t_mlx *mlx, t_lxpm *sto, int x, int y, t_vect tex);
+
+void	print_x(t_lxpm **l);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 20:00:18 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/12 20:32:06 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/21 17:52:09 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,50 +49,16 @@ int		do_wolf_3d(t_e *e)
 	return (0);
 }
 
-void		fill_xpm_list2(t_mlx *mlx, t_list **list, char *fn)
-{
-	t_list *l;
-
-	l = *list;
-	ft_lstadd(&l, ft_lstnew(find_xpm(mlx, fn), sizeof(t_xpm)));
-}
-
-void		fill_xpm_list1(t_mlx *mlx, t_list **list, char **av)
-{
-	int i = 1;
-	t_list *l;
-	l = *list;
-	while (av[++i])
-		fill_xpm_list2(mlx, &l, av[i]);
-}
-
-void		print_xd(t_xpm *xpm)
-{
-	printf("%s\n", xpm->fn);
-}
-
-void		test_xpm_list(t_list *l)
-{
-	if (l)
-	{
-	while (l)
-	{
-		printf("%zu\n", l->content_size);
-//		print_xd(l->content);
-		l = l->next;
-	}
-	}
-}
-
 void		do_wolf(t_e *e, char **av)
 {
 	e->c = 0;
 	e->mlx = initialize_mlx(e->start, &e->draw);
-	fill_xpm_list1(e->mlx, &e->list, av);
-	test_xpm_list(e->list);
-//	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
-//	mlx_hook(W, 17, 1L << 17, red_button, e);
-//	mlx_hook(W, 2, 1L << 0, key_press, e);
-//	mlx_hook(W, 3, 1L << 1, key_release, e);
-//	mlx_loop(e->mlx->mlx);
+	if (!(fill_xpm(&e, av)))
+		exit (0);
+//	do_wolf_3d(e);
+	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
+	mlx_hook(W, 17, 1L << 17, red_button, e);
+	mlx_hook(W, 2, 1L << 0, key_press, e);
+	mlx_hook(W, 3, 1L << 1, key_release, e);
+	mlx_loop(e->mlx->mlx);
 }
