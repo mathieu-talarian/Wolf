@@ -6,167 +6,33 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 15:41:06 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/21 17:52:06 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/22 19:34:18 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
+void	comp_texture(t_e *e, t_rc *rc, t_lxpm *x, t_hsv hsv)
+{
+	if (rc->side == 0) 
+		rc->wallx = rc->raypos.y + (double)(rc->walldist * rc->raydir.y);
+	else
+		rc->wallx = rc->raypos.x + (double)(rc->walldist * rc->raydir.x);
+	rc->wallx -= floor(rc->wallx);
+	rc->tex.x = (int)(rc->wallx * (double)x->x);
+	if (rc->side == 0 && rc->raydir.x > 0) 
+		rc->tex.x = x->x - rc->tex.x - 1;
+	if (rc->side == 1 && rc->raydir.y < 0) 
+		rc->tex.x = x->x - rc->tex.x - 1;
+	for (rc->pix.y = rc->drawstart; rc->pix.y < rc->drawend; rc->pix.y++)
+	{
+		rc->mult = rc->pix.y * 256 - RESO_Y * 128 + rc->lineheight * 128;
+		rc->tex.y = ((rc->mult * x->y) / rc->lineheight) / 256;
+		draw_texture(e->mlx, x, rc, hsv);
+	}
+}
+
 void	wolf_3d(t_e *e)
 {
-//	printf("%f\n", e->draw.d.dirx);
-//	printf("cos = %f\n", cos(e->draw.d.dirx));
-//	printf("sin = %f\n", sin(e->draw.d.dirx));
-	unsigned int	x;
-	int				y;
-	t_vect			raydir;
-	t_vect			raypos;
-	t_vect			sidedist;
-	t_vect			deltadist;
-	x = -1;
-	if (e->lxpm)
-		cpy_img(e->mlx, &e->lxpm);
-	t_lxpm *sto;
-	sto = return_xpm(&e->lxpm, "./image/greystone.xpm");
-	t_lxpm *pi;
-	pi = return_xpm(&e->lxpm, "./image/pillar.xpm");
-//	print_x(&e->lxpm);
-//	while (++x < RESO_X)
-//	{
-//		sky(e, x);
-//		ground(e, x);
-//	}
-	x = -1;
-	while (++x < RESO_X)
-	{
-		int y = 0;
-		double cameraX = 2 * x / (double)RESO_X - 1;
-		raypos.x = e->D.pos.x;
-		raypos.y = e->D.pos.y;
-		raydir.x = e->D.dirx + e->D.planex * cameraX;
-		raydir.y = e->D.diry + e->D.planey * cameraX;
-
-      int mapX = (int)raypos.x;
-      int mapY = (int)raypos.y;
-      deltadist.x = sqrt(1 + (carre(raydir.y)) / (carre(raydir.x)));
-      deltadist.y = sqrt(1 + (carre(raydir.x)) / (carre(raydir.y)));
-      double perpWallDist;
-
-      //what direction to step in x or y-direction (either +1 or -1)
-      int stepX;
-      int stepY;
-
-      int hit = 0; //was there a wall hit?
-      int side; //was a NS or a EW wall hit?
-
-      //calculate step and initial sideDist
-      if (raydir.x < 0)
-      {
-        stepX = -1;
-        sidedist.x = (raypos.x - mapX) * deltadist.x;
-      }
-      else
-      {
-        stepX = 1;
-        sidedist.x = (mapX + 1.0 - raypos.x) * deltadist.x;
-      }
-      if (raydir.y < 0)
-      {
-        stepY = -1;
-        sidedist.y = (raypos.y - mapY) * deltadist.y;
-      }
-      else
-      {
-        stepY = 1;
-        sidedist.y = (mapY + 1.0 - raypos.y) * deltadist.y;
-      }
-      //perform DDA
-      while (hit == 0)
-      {
-        //jump to next map square, OR in x-direction, OR in y-direction
-        if (sidedist.x < sidedist.y)
-        {
-          sidedist.x += deltadist.x;
-          mapX += stepX;
-          side = 0;
-        }
-        else
-        {
-          sidedist.y += deltadist.y;
-          mapY += stepY;
-          side = 1;
-        }
-        if (mapping(&e->map, mapX, mapY) > 0) hit = 1;
-      } 
-
-      if (side == 0) 
-		  perpWallDist = (mapX - raypos.x + (1 - stepX) / 2) / raydir.x;
-      else           
-		  perpWallDist = (mapY - raypos.y + (1 - stepY) / 2) / raydir.y;
-	  if (perpWallDist == 0)
-		  perpWallDist = 1;
-	  int lineHeight;
-			lineHeight = (int)(RESO_Y / perpWallDist);
-		int drawStart = -lineHeight / 2 + RESO_Y / 2;
-		if(drawStart < 0)drawStart = 0;
-			int drawEnd = lineHeight / 2 + RESO_Y / 2;
-		if(drawEnd >= RESO_Y)drawEnd = RESO_Y - 1;
-			t_hsv hsv;
-		hsv.v = 1;
-//		if (perpWallDist > DIS_V)
-//			hsv.v = 0;
-//	else
-//		hsv.v = perpWallDist / - DIS_V + 1;
-		if (mapping(&e->map, mapX, mapY) == 1)
-		{
-			double wallX;
-			if (side == 0) 
-				wallX = raypos.y + (double)(perpWallDist * raydir.y);
-			else
-				wallX = raypos.x + (double)(perpWallDist * raydir.x);
-			wallX -= floor(wallX);
-			t_vect tex;
-			tex.x = (int)(wallX * (double)sto->x);
-			if (side == 0 && raydir.x > 0) tex.x = sto->x - tex.x - 1;
-			if (side == 1 && raydir.y < 0) tex.x = sto->x - tex.x - 1;
-			for (y = drawStart; y < drawEnd; y++)
-			{
-				int d = y * 256 - RESO_Y * 128 + lineHeight * 128;
-				tex.y = ((d * sto->y) / lineHeight) / 256;
-				draw_texture(e->mlx, sto, x, y, tex);
-			}
-		}
-		else if (mapping(&e->map, mapX, mapY) == 2)
-		{
-			double wallX;
-			if (side == 0) 
-				wallX = raypos.y + (double)(perpWallDist * raydir.y);
-			else
-				wallX = raypos.x + (double)(perpWallDist * raydir.x);
-			wallX -= floor(wallX);
-			t_vect tex;
-			tex.x = (int)(wallX * (double)pi->x);
-			if (side == 0 && raydir.x > 0) tex.x = pi->x - tex.x - 1;
-			if (side == 1 && raydir.y < 0) tex.x = pi->x - tex.x - 1;
-			for (y = drawStart; y < drawEnd; y++)
-			{
-				int d = y * 256 - RESO_Y * 128 + lineHeight * 128;
-				tex.y = ((d * pi->y) / lineHeight) / 256;
-				draw_texture(e->mlx, pi, x, y, tex);
-			}
-		}
-		else
-		{
-			hsv.h = 120;
-		if (mapping(&e->map, mapX, mapY) == 3)
-			hsv.h = 240;
-		if (mapping(&e->map, mapX, mapY) == 4)
-			hsv.h = 60;
-		if (side == 1)
-			hsv.s = 0.5;
-		else
-			hsv.s = 1;
-		wall(e, x, drawStart, drawEnd, hsv);
-		}
-	}
+	ray_casting(e);
 }

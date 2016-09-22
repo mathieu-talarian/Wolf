@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/21 17:52:07 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/22 19:34:20 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define RESO_X 1024
 # define RESO_Y 768
-# define DIS_V 10
+# define DIS_V 15
 
 # include "../libft/libft.h"
 # include <mlx.h>
@@ -26,7 +26,7 @@
 # define W e->mlx->win
 # define I e->mlx->img
 # define Y e->draw.d
-# define ABS(X) (x < 0 ? (x * -1) : x)
+# define ABS(x) ((x) < 0 ? (x * -1) : (x))
 
 # define MF (1u<<1)
 # define MB (1u<<2)
@@ -37,11 +37,39 @@
 # define G (1u<<7)
 # define RUN (1u<<0)
 
+
+typedef struct		s_ivect
+{
+	int				x;
+	int				y;
+}					t_ivect;
+
 typedef struct		s_vect
 {
 	double			x;
 	double			y;
 }					t_vect;
+
+typedef struct		s_rc
+{
+	t_ivect			pix;
+	t_vect			raydir;
+	t_vect			raypos;
+	t_vect			deltadist;
+	t_vect			sidedist;
+	t_vect			cam;
+	t_vect			map;
+	t_vect			tex;
+	double			wallx;
+	double			walldist;
+	t_ivect			step;
+	int				hit;
+	int				side;
+	int				lineheight;
+	int				drawstart;
+	int				drawend;
+	int				mult;
+}					t_rc;
 
 typedef struct		s_rgb
 {
@@ -230,7 +258,13 @@ int			fill_xpm(t_e **ll, char **av);
 void	cpy_img(t_mlx *mlx, t_lxpm **x);
 t_lxpm		*return_xpm(t_lxpm **p, char *fn);
 
-void		draw_texture(t_mlx *mlx, t_lxpm *sto, int x, int y, t_vect tex);
+void		draw_texture(t_mlx *mlx, t_lxpm *sto, t_rc *rc, t_hsv h);
+void		comp_texture(t_e *e, t_rc *rc, t_lxpm *x, t_hsv hsv);
 
 void	print_x(t_lxpm **l);
+
+void	ray_casting(t_e *e);
+
+t_rgb	hsv_to_rgb(t_hsv hsv);
+t_hsv	rgb_to_hsv(t_rgb rgb);
 #endif

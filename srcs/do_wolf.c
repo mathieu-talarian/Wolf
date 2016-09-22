@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 20:00:18 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/21 17:52:09 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/22 16:30:51 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void		do_wolf(t_e *e, char **av)
 	e->mlx = initialize_mlx(e->start, &e->draw);
 	if (!(fill_xpm(&e, av)))
 		exit (0);
-//	do_wolf_3d(e);
 	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
 	mlx_hook(W, 17, 1L << 17, red_button, e);
 	mlx_hook(W, 2, 1L << 0, key_press, e);
