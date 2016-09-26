@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:45:54 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/21 11:02:01 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/26 13:12:27 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int		parsing_map(char *filename, t_e **ll)
 		return (no_data());
 	if (!fill_size(&e->map, &e->w, &e->h))
 		return (no_data());;
-	printf("%d <-> %d\n", e->w, e->h);
 	if (e->w < 2 || e->h < 2)
 		return (small_map(filename));
 	return (1);

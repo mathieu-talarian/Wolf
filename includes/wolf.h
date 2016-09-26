@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/22 19:34:20 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/26 18:47:55 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct		s_rc
 	int				lineheight;
 	int				drawstart;
 	int				drawend;
-	int				mult;
+	long double		mult;
 }					t_rc;
 
 typedef struct		s_rgb
@@ -258,8 +258,8 @@ int			fill_xpm(t_e **ll, char **av);
 void	cpy_img(t_mlx *mlx, t_lxpm **x);
 t_lxpm		*return_xpm(t_lxpm **p, char *fn);
 
-void		draw_texture(t_mlx *mlx, t_lxpm *sto, t_rc *rc, t_hsv h);
-void		comp_texture(t_e *e, t_rc *rc, t_lxpm *x, t_hsv hsv);
+void		draw_texture(t_mlx *mlx, t_lxpm *sto, t_rc *rc);
+void		comp_texture(t_e *e, t_rc *rc, t_lxpm *x);
 
 void	print_x(t_lxpm **l);
 
@@ -267,4 +267,6 @@ void	ray_casting(t_e *e);
 
 t_rgb	hsv_to_rgb(t_hsv hsv);
 t_hsv	rgb_to_hsv(t_rgb rgb);
+
+void	draw_floor(t_e *e, t_rc rc);
 #endif

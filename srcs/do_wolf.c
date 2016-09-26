@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 20:00:18 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/22 16:30:51 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/26 15:48:40 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,23 @@ t_mlx		*initialize_mlx(t_vect s, t_draw *draw)
 	E.oldtime = 0;
 	E.planex = 0;
 	E.planey = 0.66;
-	E.pos.x = s.x;
-	E.pos.y = s.y;
+	E.pos.x = s.x + 0.5;
+	E.pos.y = s.y + 0.5;
 	E.movespeed = 0.1;
 	E.acceleration = 1;
 	return (mlx);
+}
+
+void	print_xpm(t_lxpm **li)
+{
+	t_lxpm *l;
+	l = *li;
+
+	while (l)
+	{
+		printf("%s\n", l->fn);
+		l = l->next;
+	}
 }
 
 int		do_wolf_3d(t_e *e)
@@ -55,6 +67,8 @@ void		do_wolf(t_e *e, char **av)
 	e->mlx = initialize_mlx(e->start, &e->draw);
 	if (!(fill_xpm(&e, av)))
 		exit (0);
+
+
 	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
 	mlx_hook(W, 17, 1L << 17, red_button, e);
 	mlx_hook(W, 2, 1L << 0, key_press, e);
