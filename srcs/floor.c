@@ -17,16 +17,16 @@ void		todraw(t_e *e, t_rc rc, t_rc *fl)
 	int y;
 	t_lxpm *f;
 
-	f = return_xpm(&e->lxpm, "./image/test.xpm");
+	f = return_xpm(&e->lxpm, "./image/grass.xpm");
 
 	fl->pix.y = fl->drawstart - 1;
 	fl->pix.x = rc.pix.x;
 	while (++fl->pix.y < RESO_Y - 1)
 	{
-		fl->mult = RESO_Y / (2.0 * fl->pix.y / RESO_Y);
+		fl->mult = RESO_Y / (2.0 * fl->pix.y - RESO_Y);
 		fl->wallx = fl->mult / rc.walldist;
-		fl->raypos.x = fl->wallx * fl->deltadist.x + (1 - fl->wallx) * rc.cam.x;
-		fl->raypos.y = fl->wallx * fl->deltadist.y + (1 - fl->wallx) * rc.cam.y;
+		fl->raypos.x = fl->wallx * fl->deltadist.x + (1 - fl->wallx) * rc.raypos.x;
+		fl->raypos.y = fl->wallx * fl->deltadist.y + (1 - fl->wallx) * rc.raypos.y;
 //		printf("%f | %f\n", fl->raypos.x, fl->raypos.y);
 		fl->tex.x = (int)(fl->raypos.x * f->x) % f->x;
 		fl->tex.y = (int)(fl->raypos.y * f->x) % f->x;

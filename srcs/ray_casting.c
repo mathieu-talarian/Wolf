@@ -97,6 +97,7 @@ void		ray_casting(t_e *e)
 	t_rc	rc;
 	t_hsv	hsv;
 	rc.pix.x = -1;
+	skybox();
 	while (++rc.pix.x < RESO_X)
 	{
 		init_rc(e, &rc);
