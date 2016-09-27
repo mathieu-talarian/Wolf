@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 17:44:31 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/08 20:25:14 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/27 12:47:08 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ void		put_color_to_pixel(t_mlx *mlx, t_l l, t_rgb rgb)
 
 void		line_1(t_mlx *mlx, t_l l, t_rgb rgb)
 {
-	int i = 0;
-	int cpt = 0;
-	int j = 0;
+	int		i;
+	int		cpt;
+	int		j;
+
+	i = 0;
+	cpt = 0;
 	l.cumul = l.dx / 2;
 	while (++i <= l.dx)
 	{
@@ -43,9 +46,12 @@ void		line_1(t_mlx *mlx, t_l l, t_rgb rgb)
 
 void		line_2(t_mlx *mlx, t_l l, t_rgb rgb)
 {
-	int i = 0;
-	int cpt = 0;
-	int j = 0;
+	int		i;
+	int		cpt;
+	int		j;
+
+	i = 0;
+	cpt = 0;
 	l.cumul = l.dy / 2;
 	while (++i <= l.dy)
 	{
@@ -59,5 +65,3 @@ void		line_2(t_mlx *mlx, t_l l, t_rgb rgb)
 		put_color_to_pixel(mlx, l, rgb);
 	}
 }
-
-

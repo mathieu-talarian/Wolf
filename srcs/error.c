@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/12 18:40:42 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/12 18:42:28 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/27 12:49:29 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ int		small_map(char *fn)
 	return (0);
 }
 
-int		no_data()
+int		no_data(void)
 {
 	ft_putendl("Map empty");
 	return (0);
 }
+
 int		usage(void)
 {
 	ft_putendl("wolf : Usage");

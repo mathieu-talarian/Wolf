@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 10:13:37 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/21 14:43:06 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/27 12:48:55 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn)
 		l->img = mlx_xpm_file_to_image(mlx->mlx, fn, &l->x, &l->y);
 		if (l->img == NULL)
 		{
-			free (l);
+			free(l);
 			return (NULL);
 		}
 		l->fn = ft_strdup(fn);

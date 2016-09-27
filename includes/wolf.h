@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/26 18:47:55 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/27 19:46:58 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,4 +269,5 @@ t_rgb	hsv_to_rgb(t_hsv hsv);
 t_hsv	rgb_to_hsv(t_rgb rgb);
 
 void	draw_floor(t_e *e, t_rc rc);
+void	textures(t_e *e, t_rc *rc);
 #endif

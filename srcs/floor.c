@@ -6,46 +6,63 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 17:21:58 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/26 19:15:00 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/27 20:59:10 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void		todraw(t_e *e, t_rc *rc, t_lxpm *x)
+void		todraw(t_e *e, t_rc rc, t_rc *fl)
 {
 	int y;
-	double floorx;
-	double fl_lineh;
-	double floordist;
-//	if (rc->side == 0) 
-//		rc->wallx = rc->raypos.y + (double)(rc->walldist * rc->raydir.y);
-//	else
-//	rc->wallx = rc->raypos.x + (double)(rc->walldist * rc->raydir.x);
-//	rc->wallx -= floor(rc->wallx);
-//	rc->tex.x = (int)(rc->wallx * (double)x->x);
-	rc->tex.x = x->x;
-//	if (rc->side == 0 && rc->raydir.x > 0) 
-//		rc->tex.x = x->x - rc->tex.x - 1;
-//	if (rc->side == 1 && rc->raydir.y < 0) 
-//		rc->tex.x = x->x - rc->tex.x - 1;
-	rc->pix.y = rc->drawend;
-	fl_lineh = RESO_Y - 1 - rc->drawend;
-	printf("%f\n", fl_lineh);
-	while (rc->pix.y < RESO_Y - 1)
+	t_lxpm *f;
+
+	f = return_xpm(&e->lxpm, "./image/test.xpm");
+
+	fl->pix.y = fl->drawstart - 1;
+	fl->pix.x = rc.pix.x;
+	while (++fl->pix.y < RESO_Y - 1)
 	{
-		rc->mult = rc->pix.y * 2 - RESO_Y + fl_lineh;
-		rc->tex.y = (((int)rc->mult * x->y) / fl_lineh) / 2;
-		if (rc->tex.y < 0);
-		else
-			if (x)
-				draw_texture(e->mlx, x, rc);
-		rc->pix.y++;
+		fl->mult = RESO_Y / (2.0 * fl->pix.y / RESO_Y);
+		fl->wallx = fl->mult / rc.walldist;
+		fl->raypos.x = fl->wallx * fl->deltadist.x + (1 - fl->wallx) * rc.cam.x;
+		fl->raypos.y = fl->wallx * fl->deltadist.y + (1 - fl->wallx) * rc.cam.y;
+//		printf("%f | %f\n", fl->raypos.x, fl->raypos.y);
+		fl->tex.x = (int)(fl->raypos.x * f->x) % f->x;
+		fl->tex.y = (int)(fl->raypos.y * f->x) % f->x;
+//		printf("%f | %f\n", fl->tex.x, fl->tex.y);
+		draw_texture(e->mlx, f, fl);
+	}
+}
+
+void		init_fl_rc(t_e *e, t_rc rc, t_rc *fl)
+{
+	fl->deltadist.y = rc.map.y + rc.wallx;
+	fl->deltadist.x = rc.map.x + rc.wallx;
+	if (rc.side == 0 && rc.raydir.x > 0)
+		fl->deltadist.x = rc.map.x;
+	else if (rc.side == 0 && rc.raydir.x < 0)
+		fl->deltadist.x = rc.map.x + 1.0;
+	else if (rc.side == 1 && rc.raydir.y > 0)
+		fl->deltadist.y = rc.map.y;
+	else
+		fl->deltadist.y = rc.map.y + 1.0;
+	if (rc.drawend < RESO_Y - 1)
+	{
+		fl->drawend = RESO_Y - 1;
+		fl->drawstart = rc.drawend;
+	}
+	else
+	{
+		fl->drawend = 0;
+		fl->drawstart = 0;
 	}
 }
 
 void		draw_floor(t_e *e, t_rc rc)
 {
+	t_rc flrc;
+	init_fl_rc(e, rc, &flrc);
 	if (rc.drawend != RESO_Y - 1)
-		todraw(e, &rc, return_xpm(&e->lxpm, "./image/floor.xpm"));
+		todraw(e, rc, &flrc);
 }

@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/22 15:59:26 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/26 19:15:01 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/27 20:50:55 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void		calc_line(t_rc *rc)
 					rc->raydir.y;
 	if (rc->walldist <= 0)
 		rc->walldist = 1;
-//	printf("%f\n", rc->walldist);
 	rc->lineheight = (int)(RESO_Y / rc->walldist);
 	rc->drawstart = -rc->lineheight / 2 + RESO_Y / 2;
 	if(rc->drawstart < 0)
@@ -92,58 +91,19 @@ void		calc_line(t_rc *rc)
 		rc->drawend = RESO_Y - 1;
 }
 
-void		return_current_image(char **str, char *u1, char *u2)
-{
-	static int i = 1;
-	static int in = 0;
-
-	char *s;
-	char *s2;
-	s = NULL;
-	s2 = NULL;
-	s = ft_itoa(i);
-	s2 = ft_strjoin(s, u1);
-	*str = ft_strjoin(u2, s2);
-	ft_strdel (&s2);
-	ft_strdel(&s);
-	if (i == 138)
-		in = 139;
-	if (i == 1)
-		in = 0;
-	if (in < i)
-	{
-		in = i;
-		i++;
-	}
-	else
-	{
-		in = i;
-		i--;
-	}
-}
 
 void		ray_casting(t_e *e)
 {
 	t_rc	rc;
 	t_hsv	hsv;
-	char *str;
-	char *str2;
-	str = NULL;
-	str2 = NULL;
-	return_current_image(&str, ".xpm", "./image/w/w");
-	return_current_image(&str2, ".xpm", "./image/m/m");
 	rc.pix.x = -1;
-	printf("%s\n", str2);
 	while (++rc.pix.x < RESO_X)
 	{
 		init_rc(e, &rc);
 		calc_map(&rc);
 		calc_dist(e, &rc);
 		calc_line(&rc);
-		if (mapping(&e->map, rc.map.x, rc.map.y) == 1)
-			comp_texture(e, &rc, return_xpm(&e->lxpm, str));
-		else if (mapping(&e->map, rc.map.x, rc.map.y) == 2)
-			comp_texture(e, &rc, return_xpm(&e->lxpm, str2));
+		textures(e, &rc);
 //		else
 //		{
 //			if (mapping(&e->map, rc.map.x, rc.map.y) == 3)
@@ -158,6 +118,4 @@ void		ray_casting(t_e *e)
 //		}
 		draw_floor(e, rc);
 	}
-	ft_strdel(&str);
-	ft_strdel(&str2);
 }
