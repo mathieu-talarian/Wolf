@@ -6,20 +6,36 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 17:21:58 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 21:00:39 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/28 20:34:05 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
+
+t_lxpm		*find_text(t_e *e, double x, double y)
+{
+	int i;
+
+	i = mapping(&e->map, (int)x, (int)y);
+	if (i == 1)
+		return (return_xpm(&e->lxpm, "./image/w/ww1.xpm"));
+	if (i == 0)
+		return (return_xpm(&e->lxpm, "./image/grass.xpm"));
+	if (i == -1)
+		return (return_xpm(&e->lxpm, "./image/ground.xpm"));
+	if (i == -2)
+		return (return_xpm(&e->lxpm, "./image/greystone.xpm"));
+	if (i == -6)
+		return (return_xpm(&e->lxpm, "./image/ground.xpm"));
+	return (NULL);
+}
 
 void		todraw(t_e *e, t_rc rc, t_rc *fl)
 {
 	int y;
 	t_lxpm *f;
 
-	f = return_xpm(&e->lxpm, "./image/grass.xpm");
-
-	fl->pix.y = fl->drawstart - 1;
+	fl->pix.y = fl->drawstart - 2;
 	fl->pix.x = rc.pix.x;
 	while (++fl->pix.y < RESO_Y - 1)
 	{
@@ -27,11 +43,13 @@ void		todraw(t_e *e, t_rc rc, t_rc *fl)
 		fl->wallx = fl->mult / rc.walldist;
 		fl->raypos.x = fl->wallx * fl->deltadist.x + (1 - fl->wallx) * rc.raypos.x;
 		fl->raypos.y = fl->wallx * fl->deltadist.y + (1 - fl->wallx) * rc.raypos.y;
-//		printf("%f | %f\n", fl->raypos.x, fl->raypos.y);
-		fl->tex.x = (int)(fl->raypos.x * f->x) % f->x;
-		fl->tex.y = (int)(fl->raypos.y * f->x) % f->x;
-//		printf("%f | %f\n", fl->tex.x, fl->tex.y);
-		draw_texture(e->mlx, f, fl);
+		f = find_text(e, fl->raypos.x, fl->raypos.y);
+		if (f)
+		{
+			fl->tex.x = (int)(fl->raypos.x * f->x) % f->x;
+			fl->tex.y = (int)(fl->raypos.y * f->x) % f->x;
+			draw_texture(e->mlx, f, fl);
+		}
 	}
 }
 

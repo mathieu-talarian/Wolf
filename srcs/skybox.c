@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/10 17:35:19 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 12:42:07 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/28 20:34:10 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,24 @@ void		cpy_color(t_mlx *m, t_lxpm *p, int x, int y)
 	m->d_a[++j] = 10;
 }
 
-void		cpy_img(t_mlx *m, t_lxpm **p)
+void		skybox(t_e *e, t_lxpm *sb)
 {
 	int x;
 	int y;
-	t_lxpm *sb;
 
 	x = -1;
 	y = -1;
-	sb = return_xpm(p, "./image/sb.xpm");
-	if (sb)
+
+	if (!sb)
 	{
-		while (++y < RESO_Y)
-		{
-			x = -1;
-			while (++x < RESO_X)
-				cpy_color(m, sb, x, y);
-		}
+		sky(e);
+		return ;
+	}
+	while (++y < RESO_Y)
+	{
+		x = -1;
+		while (++x < RESO_X)
+			cpy_color(e->mlx, sb, x, y);
 	}
 }
 

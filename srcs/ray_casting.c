@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/22 15:59:26 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 21:00:40 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/28 20:34:05 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		calc_dist(t_e *e, t_rc *rc)
 			rc->map.y += rc->step.y;
 			rc->side = 1;
 		}
-		if (mapping(&e->map, rc->map.x, rc->map.y) > 0) 
+		if (mapping(&e->map, rc->map.x, rc->map.y) > 3) 
 			rc->hit = 1;
 	}
 }
@@ -97,25 +97,19 @@ void		ray_casting(t_e *e)
 	t_rc	rc;
 	t_hsv	hsv;
 	rc.pix.x = -1;
+	skybox(e, return_xpm(&e->lxpm, "./image/sb.xpm"));
 	while (++rc.pix.x < RESO_X)
 	{
 		init_rc(e, &rc);
 		calc_map(&rc);
 		calc_dist(e, &rc);
 		calc_line(&rc);
-		textures(e, &rc);
-//		else
-//		{
-//			if (mapping(&e->map, rc.map.x, rc.map.y) == 3)
-//				hsv.h = 240;
-//			if (mapping(&e->map, rc.map.x, rc.map.y) == 4)
-//				hsv.h = 60;
-//			if (rc.side == 1)
-//				hsv.s = 0.5;
-//			else
-//				hsv.s = 1;
-//			wall(e, rc.pix.x, rc.drawstart, rc.drawend, hsv);
-//		}
-		draw_floor(e, rc);
+	if (rc.side == 0) 
+		rc.wallx = rc.raypos.y + (double)(rc.walldist * rc.raydir.y);
+	else
+		rc.wallx = rc.raypos.x + (double)(rc.walldist * rc.raydir.x);
+	rc.wallx -= floor(rc.wallx);
+	textures(e, &rc);
+	draw_floor(e, rc);
 	}
 }

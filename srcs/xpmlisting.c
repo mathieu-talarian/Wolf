@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 10:13:37 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 12:48:55 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/28 15:52:34 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,23 @@ t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn)
 
 	if (!(l = (t_lxpm *)malloc(sizeof(t_lxpm))))
 		return (NULL);
-	if (l)
-	{
+//	if (find_extension("bmp", fn))
+//	{
+//		l->img = bmp_to_image(mlx->mlx, fn, &l->x, &l->y);
+//		l->ext = 1;
+//	}
+//	else
+//	{
 		l->img = mlx_xpm_file_to_image(mlx->mlx, fn, &l->x, &l->y);
-		if (l->img == NULL)
-		{
-			free(l);
-			return (NULL);
-		}
-		l->fn = ft_strdup(fn);
-		l->d_a = mlx_get_data_addr(l->img, &l->bpp, &l->sl, &l->e);
+		l->ext = 0;
+//	}
+	if (l->img == NULL)
+	{
+		free(l);
+		return (NULL);
 	}
+	l->fn = ft_strdup(fn);
+	l->d_a = mlx_get_data_addr(l->img, &l->bpp, &l->sl, &l->e);
 	l->next = NULL;
 	return (l);
 }

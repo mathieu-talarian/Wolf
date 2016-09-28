@@ -6,13 +6,13 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/07 14:14:07 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/22 16:10:38 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/28 20:34:10 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void	sky(t_e *e, int x)
+void	sky(t_e *e)
 {
 	t_hsv hsv;
 	t_rgb rgb;
@@ -22,15 +22,17 @@ void	sky(t_e *e, int x)
 	double delta = 1 / (double)((RESO_Y  - sw) / 2);
 	hsv.h = 205;
 	hsv.s = 0.47;
-	l.x = x;
-	l.y = -1;
-	hsv.v = 1;
-
-	while (++l.y < RESO_Y / 2 && hsv.v >= 0)
+	l.x = -1;
+	while (++l.x < RESO_X)
 	{
-		hsv.v -= delta;
-		rgb = hsv_to_rgb(hsv);
-		put_color_to_pixel(e->mlx, l, rgb);
+		l.y = -1;
+		hsv.v = 1;
+		while (++l.y < RESO_Y / 2 && hsv.v >= 0)
+		{
+			hsv.v -= delta;
+			rgb = hsv_to_rgb(hsv);
+			put_color_to_pixel(e->mlx, l, rgb);
+		}
 	}
 }
 

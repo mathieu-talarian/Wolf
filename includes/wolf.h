@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 19:46:58 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/28 20:34:09 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ typedef struct		s_lxpm
 	int				sl;
 	int				bpp;
 	int				e;
+	int				ext;
 	struct s_lxpm	*next;
 }					t_lxpm;
 
@@ -226,7 +227,8 @@ void	line_2(t_mlx *mlx, t_l l, t_rgb rgb);
 void	rd(t_e *e);
 
 void	test_start(t_e *e);
-void	sky(t_e *e, int x);
+void	skybox(t_e *e, t_lxpm *sb);
+void	sky(t_e *e);
 void	ground(t_e *e, int x);
 void	wall(t_e *e, int x, int ds, int de, t_hsv hsv);
 
@@ -270,4 +272,5 @@ t_hsv	rgb_to_hsv(t_rgb rgb);
 
 void	draw_floor(t_e *e, t_rc rc);
 void	textures(t_e *e, t_rc *rc);
+void	*bmp_to_image(t_mlx *mlx, char *fn, int *w, int *h);
 #endif
