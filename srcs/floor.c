@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/26 17:21:58 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 20:34:05 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:46:33 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ t_lxpm		*find_text(t_e *e, double x, double y)
 
 	i = mapping(&e->map, (int)x, (int)y);
 	if (i == 1)
-		return (return_xpm(&e->lxpm, "./image/w/ww1.xpm"));
+		return (return_xpm(&e->lxpm, "./image/ww1.xpm"));
 	if (i == 0)
-		return (return_xpm(&e->lxpm, "./image/grass.xpm"));
+		return (return_xpm(&e->lxpm, "./image/sand.xpm"));
 	if (i == -1)
 		return (return_xpm(&e->lxpm, "./image/ground.xpm"));
 	if (i == -2)
-		return (return_xpm(&e->lxpm, "./image/greystone.xpm"));
+		return (return_xpm(&e->lxpm, "./image/grass.xpm"));
+	if (i == -3)
+		return (return_xpm(&e->lxpm, "./image/fl.xpm"));
+	if (i == -4)
+		return (return_xpm(&e->lxpm, "./image/blue.xpm"));
 	if (i == -6)
 		return (return_xpm(&e->lxpm, "./image/ground.xpm"));
 	return (NULL);
@@ -32,8 +36,8 @@ t_lxpm		*find_text(t_e *e, double x, double y)
 
 void		todraw(t_e *e, t_rc rc, t_rc *fl)
 {
-	int y;
-	t_lxpm *f;
+	int		y;
+	t_lxpm	*f;
 
 	fl->pix.y = fl->drawstart - 2;
 	fl->pix.x = rc.pix.x;
@@ -41,8 +45,10 @@ void		todraw(t_e *e, t_rc rc, t_rc *fl)
 	{
 		fl->mult = RESO_Y / (2.0 * fl->pix.y - RESO_Y);
 		fl->wallx = fl->mult / rc.walldist;
-		fl->raypos.x = fl->wallx * fl->deltadist.x + (1 - fl->wallx) * rc.raypos.x;
-		fl->raypos.y = fl->wallx * fl->deltadist.y + (1 - fl->wallx) * rc.raypos.y;
+		fl->raypos.x = fl->wallx * fl->deltadist.x + (1 - fl->wallx) * \
+						rc.raypos.x;
+		fl->raypos.y = fl->wallx * fl->deltadist.y + (1 - fl->wallx) * \
+						rc.raypos.y;
 		f = find_text(e, fl->raypos.x, fl->raypos.y);
 		if (f)
 		{
@@ -80,6 +86,7 @@ void		init_fl_rc(t_e *e, t_rc rc, t_rc *fl)
 void		draw_floor(t_e *e, t_rc rc)
 {
 	t_rc flrc;
+
 	init_fl_rc(e, rc, &flrc);
 	if (rc.drawend != RESO_Y - 1)
 		todraw(e, rc, &flrc);

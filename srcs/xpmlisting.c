@@ -6,28 +6,20 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 10:13:37 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 15:52:34 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 21:54:03 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn)
+t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn, int n_tx)
 {
 	t_lxpm *l;
 
 	if (!(l = (t_lxpm *)malloc(sizeof(t_lxpm))))
 		return (NULL);
-//	if (find_extension("bmp", fn))
-//	{
-//		l->img = bmp_to_image(mlx->mlx, fn, &l->x, &l->y);
-//		l->ext = 1;
-//	}
-//	else
-//	{
-		l->img = mlx_xpm_file_to_image(mlx->mlx, fn, &l->x, &l->y);
-		l->ext = 0;
-//	}
+	l->img = mlx_xpm_file_to_image(mlx->mlx, fn, &l->x, &l->y);
+	l->ext = 0;
 	if (l->img == NULL)
 	{
 		free(l);

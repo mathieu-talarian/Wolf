@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 17:06:32 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 12:39:04 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:51:40 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,4 @@ void		ligne(t_e *e, t_dpts pts, t_rgb rgb)
 	e->draw.l.dx = abs(e->draw.l.dx);
 	e->draw.l.dy = abs(e->draw.l.dy);
 	line_to_pixel(e->mlx, e->draw.l, rgb);
-}
-
-void		draw_line(t_e *e, int x, int y0, int y1, t_rgb rgb)
-{
-	e->draw.pts.x0 = x;
-	e->draw.pts.x1 = x;
-	e->draw.pts.y0 = y0;
-	e->draw.pts.y1 = y1;
-	ligne(e, e->draw.pts, rgb);
 }

@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/24 18:26:32 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 19:55:00 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:45:22 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,13 @@ int		key_release(int keycode, t_e *e)
 		e->c ^= TL;
 	else if (keycode == 2)
 		e->c ^= TR;
-//	moove(e);
 	return (0);
 }
 
 int		key_press(int keycode, t_e *e)
 {
 	if (keycode == 53)
-		exit (0);
+		exit(0);
 	else if (keycode == 49)
 		open_door(e);
 	else if (keycode == 257)
@@ -84,6 +83,5 @@ int		key_press(int keycode, t_e *e)
 		e->c |= TL;
 	else if (keycode == 2)
 		e->c |= TR;
-//	moove(e);
 	return (0);
 }

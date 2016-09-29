@@ -6,18 +6,11 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 20:00:18 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 15:50:33 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:30:31 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
-
-void		print_datas(t_draw *draw)
-{
-	printf("dirx %f | diry %f\n", E.dirx, E.diry);
-	printf("planex %f | planey %f\n", E.planex, E.planey);
-	printf("posx %f | posy %f\n", E.pos.x, E.pos.y);
-}
 
 t_mlx		*initialize_mlx(t_vect s, t_draw *draw)
 {
@@ -41,11 +34,11 @@ t_mlx		*initialize_mlx(t_vect s, t_draw *draw)
 	return (mlx);
 }
 
-void	print_xpm(t_lxpm **li)
+void		print_xpm(t_lxpm **li)
 {
 	t_lxpm *l;
-	l = *li;
 
+	l = *li;
 	while (l)
 	{
 		printf("%s\n", l->fn);
@@ -53,7 +46,7 @@ void	print_xpm(t_lxpm **li)
 	}
 }
 
-int		do_wolf_3d(t_e *e)
+int			do_wolf_3d(t_e *e)
 {
 	moove(e);
 	wolf_3d(e);
@@ -63,12 +56,11 @@ int		do_wolf_3d(t_e *e)
 
 void		do_wolf(t_e *e, char **av)
 {
+	e->i = 0;
 	e->c = 0;
 	e->mlx = initialize_mlx(e->start, &e->draw);
 	if (!(fill_xpm(&e, av)))
-		exit (0);
-
-
+		exit(0);
 	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
 	mlx_hook(W, 17, 1L << 17, red_button, e);
 	mlx_hook(W, 2, 1L << 0, key_press, e);

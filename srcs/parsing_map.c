@@ -6,13 +6,13 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:45:54 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/26 13:12:27 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:43:52 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-int				fill_list(int fd, char **line, t_map **map, t_vect *start)
+int			fill_list(int fd, char **line, t_map **map, t_vect *start)
 {
 	int			i;
 	int			j;
@@ -40,7 +40,7 @@ int				fill_list(int fd, char **line, t_map **map, t_vect *start)
 	return (1);
 }
 
-int				start_fill(int fd, t_map **map, t_vect *start)
+int			start_fill(int fd, t_map **map, t_vect *start)
 {
 	char		*line;
 
@@ -50,7 +50,7 @@ int				start_fill(int fd, t_map **map, t_vect *start)
 	return (1);
 }
 
-int		parsing_map(char *filename, t_e **ll)
+int			parsing_map(char *filename, t_e **ll)
 {
 	int		fd;
 	t_e		*e;
@@ -65,7 +65,7 @@ int		parsing_map(char *filename, t_e **ll)
 	if (!(start_fill(fd, &e->map, &e->start)))
 		return (no_data());
 	if (!fill_size(&e->map, &e->w, &e->h))
-		return (no_data());;
+		return (no_data());
 	if (e->w < 2 || e->h < 2)
 		return (small_map(filename));
 	return (1);

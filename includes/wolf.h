@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 18:33:39 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 20:34:09 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 22:12:54 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,28 @@ typedef struct		s_hsv
 	double			s;
 	double			v;
 }					t_hsv;
+
+typedef struct		s_chsv
+{
+	t_hsv			out;
+	t_rgb			tmp;
+	double			min;
+	double			max;
+	double			delta;
+}					t_chsv;
+
+typedef struct		s_crgb
+{
+	t_rgb			r;
+	long			i;
+	double			hh;
+	double			p;
+	double			q;
+	double			t;
+	double			ff;
+}					t_crgb;
+
+
 
 typedef struct		s_line
 {
@@ -175,6 +197,8 @@ typedef struct		s_e
 	int				h;
 	int				w;
 	char			c;
+	int				i;
+	int				opt;
 	t_vect			start;
 	t_draw			draw;
 }					t_e;
@@ -202,11 +226,13 @@ t_map		*new_data_list(int count_words, int num_line, char **tab, \
 t_line		*new_line_list(int y, int x, char *nbr, t_vect *start);
 void		fill_line_list(t_line **list, int num_line, char **tab, t_vect *start);
 int			fill_size(t_map **m, int *w, int *h);
+void		free_map_list(t_map **map);
 void		tab_clr(char ***tab);
 
 
 
 void			print_map(t_map **map);
+void			mlx_img_to_black(t_mlx *mlx);
 
 
 void			do_wolf(t_e *e, char **av);
@@ -219,7 +245,7 @@ double			cube(double n);
 double			p_4(double n);
 
 
-void	draw_line(t_e *e, int x, int y0, int y1, t_rgb rgb);
+void	draw_line(t_mlx *mlx, t_rgb rgb, t_rc rc);
 void	put_color_to_pixel(t_mlx *mlx, t_l l, t_rgb rgb);
 void	line_1(t_mlx *mlx, t_l l, t_rgb rgb);
 void	line_2(t_mlx *mlx, t_l l, t_rgb rgb);
@@ -229,7 +255,7 @@ void	rd(t_e *e);
 void	test_start(t_e *e);
 void	skybox(t_e *e, t_lxpm *sb);
 void	sky(t_e *e);
-void	ground(t_e *e, int x);
+void	ground(t_e *e);
 void	wall(t_e *e, int x, int ds, int de, t_hsv hsv);
 
 int		key_press(int keycode, t_e *e);
@@ -254,7 +280,7 @@ int		red_button(t_e *e);
 /*
 **xpm
 */
-t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn);
+t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn, int tx_n);
 void		lstxpmadd(t_lxpm **begin_list, t_lxpm *nw);
 int			fill_xpm(t_e **ll, char **av);
 void	cpy_img(t_mlx *mlx, t_lxpm **x);
@@ -273,4 +299,11 @@ t_hsv	rgb_to_hsv(t_rgb rgb);
 void	draw_floor(t_e *e, t_rc rc);
 void	textures(t_e *e, t_rc *rc);
 void	*bmp_to_image(t_mlx *mlx, char *fn, int *w, int *h);
+
+void	new_map(t_e *e);
+void	new_map2(t_e *e);
+int		do_wolf_3d(t_e *e);
+void	notextures(t_e *e, t_rc rc);
+void	rc_wall(t_rc *rc);
+void	do_rc(t_e *e, t_rc rc);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/08 19:45:00 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 17:54:31 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:22:54 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	turn_left(t_draw *draw, t_map *map)
 	double oldplanex;
 	double rotspeed;
 
-	rotspeed = 0.1;
+	rotspeed = 0.2;
 	olddirx = E.dirx;
 	oldplanex = E.planex;
 	E.dirx = E.dirx * cos(-rotspeed) - E.diry * sin(-rotspeed);
@@ -33,7 +33,7 @@ void	turn_right(t_draw *draw, t_map *map)
 	double oldplanex;
 	double rotspeed;
 
-	rotspeed = 0.1;
+	rotspeed = 0.2;
 	olddirx = E.dirx;
 	oldplanex = E.planex;
 	olddirx = E.dirx;

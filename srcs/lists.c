@@ -6,13 +6,14 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/01 19:06:29 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 12:50:18 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:43:05 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf.h"
 
-void		fill_line_list(t_line **list, int num_line, char **tab, t_vect *start)
+void		fill_line_list(t_line **list, int num_line, char **tab, \
+		t_vect *start)
 {
 	int		i;
 
@@ -34,27 +35,19 @@ t_line		*new_line_list(int y, int x, char *nbr, t_vect *start)
 	tab = NULL;
 	if (!(new = (t_line *)malloc(sizeof(t_line))))
 		return (NULL);
-	if (ft_strcmp(nbr, "x") == 0)
-	{
-		start->x = x;
-		start->y = y;
-		i = 0;
-	}
 	if (new && nbr)
 	{
 		new->x = x;
 		new->y = y;
-		if (i == 0)
-			new->wall = 0;
-		else
-			new->wall = ft_atoi(nbr);
+		new->wall = ft_atoi(nbr);
 		new->next = NULL;
 	}
 	ft_strdel(tab);
 	return (new);
 }
 
-t_map		*new_data_list(int count_words, int num_line, char **tab, t_vect *start)
+t_map		*new_data_list(int count_words, int num_line, char **tab, \
+		t_vect *start)
 {
 	t_map		*new;
 	int			i;

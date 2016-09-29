@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/21 12:23:28 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 20:34:04 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 21:54:03 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	draw_bl(t_mlx *mlx, t_rc *rc)
 {
 	int i;
-	
+
 	rc->pix.y = rc->drawstart - 1;
 	while (++rc->pix.y < rc->drawend)
 	{
@@ -29,14 +29,17 @@ static void	draw_bl(t_mlx *mlx, t_rc *rc)
 void		textures(t_e *e, t_rc *rc)
 {
 	if (mapping(&e->map, rc->map.x, rc->map.y) == 5)
-	{
-		rc->drawstart = 0;
-		comp_texture(e, rc, return_xpm(&e->lxpm, "./image/greystone.xpm"));
-	}
+		comp_texture(e, rc, return_xpm(&e->lxpm, "./image/wood.xpm"));
+	else if (mapping(&e->map, rc->map.x, rc->map.y) == 3)
+		comp_texture(e, rc, return_xpm(&e->lxpm, "./image/stone.xpm"));
 	else if (mapping(&e->map, rc->map.x, rc->map.y) == 6)
 		comp_texture(e, rc, return_xpm(&e->lxpm, "./image/po.xpm"));
 	else if (mapping(&e->map, rc->map.x, rc->map.y) == 7)
 		draw_bl(e->mlx, rc);
+	else if (mapping(&e->map, rc->map.x, rc->map.y) == 8)
+		comp_texture(e, rc, return_xpm(&e->lxpm, "./image/stone.xpm"));
+	else if (mapping(&e->map, rc->map.x, rc->map.y) == 9)
+		comp_texture(e, rc, return_xpm(&e->lxpm, "./image/wll.xpm"));
 	else
 		comp_texture(e, rc, return_xpm(&e->lxpm, "aa"));
 }

@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/10 17:35:19 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 20:34:10 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:52:27 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void		skybox(t_e *e, t_lxpm *sb)
 
 	x = -1;
 	y = -1;
-
-	if (!sb)
+	if (!sb || e->i == 1)
 	{
 		sky(e);
 		return ;
@@ -49,11 +48,12 @@ void		skybox(t_e *e, t_lxpm *sb)
 t_lxpm		*find_xpm(t_mlx *mlx, char *fn)
 {
 	t_lxpm *x;
+
 	x = (t_lxpm *)malloc(sizeof(t_lxpm));
 	x->img = mlx_xpm_file_to_image(mlx->mlx, fn, &x->x, &x->y);
 	if (x->img == NULL)
 	{
-		free (x);
+		free(x);
 		return (NULL);
 	}
 	x->fn = ft_strdup(fn);

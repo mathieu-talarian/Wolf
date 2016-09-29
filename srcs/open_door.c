@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/09 15:39:08 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 20:34:09 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:21:48 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,9 @@ void	open_door(t_e *e)
 {
 	if (((mapping(&e->map, (int)(Q.pos.x + Q.dirx), \
 						(int)(Q.pos.y + Q.diry))) == 6))
-	{
 		mod_map(&e->map, (int)(Q.pos.x + Q.dirx), (int)(Q.pos.y + Q.diry), -1);
-		print_map(&e->map);
-	}
-
 	else if (((mapping(&e->map, (int)(Q.pos.x + Q.dirx), \
-						(int)(Q.pos.y + Q.diry))) < 0))
+						(int)(Q.pos.y + Q.diry))) == -6))
 		mod_map(&e->map, (int)(Q.pos.x + Q.dirx), (int)(Q.pos.y + Q.diry), 1);
 	rd(e);
 }

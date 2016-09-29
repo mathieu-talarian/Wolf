@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/12 18:40:42 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 12:49:29 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:32:53 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ int		no_data(void)
 int		usage(void)
 {
 	ft_putendl("wolf : Usage");
-	ft_putendl("./wolf map.wolf");
+	ft_putendl("./wolf3d");
 	return (0);
 }

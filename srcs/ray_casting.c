@@ -6,11 +6,11 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/22 15:59:26 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/28 20:34:05 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 21:59:04 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "wolf.h"
+#include "wolf.h"
 
 void		init_rc(t_e *e, t_rc *rc)
 {
@@ -67,14 +67,14 @@ void		calc_dist(t_e *e, t_rc *rc)
 			rc->map.y += rc->step.y;
 			rc->side = 1;
 		}
-		if (mapping(&e->map, rc->map.x, rc->map.y) > 3) 
+		if (mapping(&e->map, rc->map.x, rc->map.y) >= 3)
 			rc->hit = 1;
 	}
 }
 
 void		calc_line(t_rc *rc)
 {
-	if (rc->side == 0) 
+	if (rc->side == 0)
 		rc->walldist = (rc->map.x - rc->raypos.x + (1 - rc->step.x) / 2) / \
 					rc->raydir.x;
 	else
@@ -84,32 +84,33 @@ void		calc_line(t_rc *rc)
 		rc->walldist = 1;
 	rc->lineheight = (int)(RESO_Y / rc->walldist);
 	rc->drawstart = -rc->lineheight / 2 + RESO_Y / 2;
-	if(rc->drawstart < 0)
+	if (rc->drawstart < 0)
 		rc->drawstart = 0;
 	rc->drawend = rc->lineheight / 2 + RESO_Y / 2;
-	if(rc->drawend >= RESO_Y)
+	if (rc->drawend >= RESO_Y)
 		rc->drawend = RESO_Y - 1;
 }
-
 
 void		ray_casting(t_e *e)
 {
 	t_rc	rc;
 	t_hsv	hsv;
+
 	rc.pix.x = -1;
-	skybox(e, return_xpm(&e->lxpm, "./image/sb.xpm"));
+	if (e->opt == 0)
+		skybox(e, return_xpm(&e->lxpm, "./image/sb.xpm"));
+	else
+	{
+		sky(e);
+		ground(e);
+	}
 	while (++rc.pix.x < RESO_X)
 	{
 		init_rc(e, &rc);
 		calc_map(&rc);
 		calc_dist(e, &rc);
 		calc_line(&rc);
-	if (rc.side == 0) 
-		rc.wallx = rc.raypos.y + (double)(rc.walldist * rc.raydir.y);
-	else
-		rc.wallx = rc.raypos.x + (double)(rc.walldist * rc.raydir.x);
-	rc.wallx -= floor(rc.wallx);
-	textures(e, &rc);
-	draw_floor(e, rc);
+		rc_wall(&rc);
+		do_rc(e, rc);
 	}
 }

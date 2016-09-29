@@ -6,7 +6,7 @@
 /*   By: mmoullec <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/09/06 16:02:02 by mmoullec          #+#    #+#             */
-/*   Updated: 2016/09/27 21:00:40 by mmoullec         ###   ########.fr       */
+/*   Updated: 2016/09/29 20:45:07 by mmoullec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int		mapping_x(t_line **line, int x)
 {
 	t_line	*l;
-	int		ret = 0;
+	int		ret;
 
+	ret = 0;
 	l = *line;
 	while (l)
 	{
@@ -40,4 +41,3 @@ int		mapping(t_map **map, int x, int y)
 	}
 	return (0);
 }
-
