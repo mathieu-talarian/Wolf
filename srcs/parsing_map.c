@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-int			fill_list(int fd, char **line, t_map **map, t_vect *start)
+int			fill_list(int fd, char **line, t_map **map)
 {
 	int			i;
 	int			j;
@@ -30,7 +30,7 @@ int			fill_list(int fd, char **line, t_map **map, t_vect *start)
 		if (*line == NULL)
 			return (-1);
 		tab = ft_strsplit(*line, ' ');
-		data_list_add(map, new_data_list(j, k, tab, start));
+		data_list_add(map, new_data_list(k, tab));
 		tab_clr(&tab);
 		k++;
 		ft_strdel(line);
@@ -40,12 +40,12 @@ int			fill_list(int fd, char **line, t_map **map, t_vect *start)
 	return (1);
 }
 
-int			start_fill(int fd, t_map **map, t_vect *start)
+int			start_fill(int fd, t_map **map)
 {
 	char		*line;
 
 	line = NULL;
-	if ((fill_list(fd, &line, map, start)) < 0)
+	if ((fill_list(fd, &line, map)) < 0)
 		return (0);
 	return (1);
 }
@@ -62,7 +62,7 @@ int			parsing_map(char *filename, t_e **ll)
 	e->start.y = -1;
 	if (!(ft_open_file(filename, &fd)))
 		return (usage());
-	if (!(start_fill(fd, &e->map, &e->start)))
+	if (!(start_fill(fd, &e->map)))
 		return (no_data());
 	if (!fill_size(&e->map, &e->w, &e->h))
 		return (no_data());

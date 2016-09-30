@@ -20,6 +20,7 @@ t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn, int n_tx)
 		return (NULL);
 	l->img = mlx_xpm_file_to_image(mlx->mlx, fn, &l->x, &l->y);
 	l->ext = 0;
+	l->n_tx = n_tx;
 	if (l->img == NULL)
 	{
 		free(l);

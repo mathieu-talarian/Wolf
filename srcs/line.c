@@ -21,7 +21,7 @@ void		line_to_pixel(t_mlx *mlx, t_l l, t_rgb rgb)
 		line_2(mlx, l, rgb);
 }
 
-void		ligne(t_e *e, t_dpts pts, t_rgb rgb)
+void		ligne(t_e *e, t_rgb rgb)
 {
 	e->draw.l.x = e->draw.pts.x0;
 	e->draw.l.y = e->draw.pts.y0;

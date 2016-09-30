@@ -36,6 +36,6 @@ int		main(int ac, char **av)
 	if (!parsing_map("./map/map.wolf", &e))
 		return (0);
 	test_start(e);
-	do_wolf(e, av);
+	do_wolf(e);
 	return (1);
 }

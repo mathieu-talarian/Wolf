@@ -12,20 +12,19 @@
 
 #include "wolf.h"
 
-void		fill_line_list(t_line **list, int num_line, char **tab, \
-		t_vect *start)
+void		fill_line_list(t_line **list, int num_line, char **tab)
 {
 	int		i;
 
 	i = 0;
 	while (tab[i])
 	{
-		line_list_add(list, new_line_list(num_line, i, tab[i], start));
+		line_list_add(list, new_line_list(num_line, i, tab[i]));
 		i++;
 	}
 }
 
-t_line		*new_line_list(int y, int x, char *nbr, t_vect *start)
+t_line		*new_line_list(int y, int x, char *nbr)
 {
 	t_line	*new;
 	char	**tab;
@@ -46,8 +45,7 @@ t_line		*new_line_list(int y, int x, char *nbr, t_vect *start)
 	return (new);
 }
 
-t_map		*new_data_list(int count_words, int num_line, char **tab, \
-		t_vect *start)
+t_map		*new_data_list(int num_line, char **tab)
 {
 	t_map		*new;
 	int			i;
@@ -60,7 +58,7 @@ t_map		*new_data_list(int count_words, int num_line, char **tab, \
 	{
 		new->num_line = num_line;
 		new->line = NULL;
-		fill_line_list(&new->line, num_line, tab, start);
+		fill_line_list(&new->line, num_line, tab);
 		new->next = NULL;
 	}
 	return (new);

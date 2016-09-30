@@ -22,7 +22,6 @@ void	mod_map2(t_line **line, int x, int cpt)
 	{
 		if (l->x == x)
 		{
-			printf("cpt = %d\n", cpt);
 			if (cpt == 0)
 				l->wall *= -1;
 			else

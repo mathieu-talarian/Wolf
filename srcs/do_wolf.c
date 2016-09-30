@@ -34,18 +34,6 @@ t_mlx		*initialize_mlx(t_vect s, t_draw *draw)
 	return (mlx);
 }
 
-void		print_xpm(t_lxpm **li)
-{
-	t_lxpm *l;
-
-	l = *li;
-	while (l)
-	{
-		printf("%s\n", l->fn);
-		l = l->next;
-	}
-}
-
 int			do_wolf_3d(t_e *e)
 {
 	moove(e);
@@ -54,12 +42,12 @@ int			do_wolf_3d(t_e *e)
 	return (0);
 }
 
-void		do_wolf(t_e *e, char **av)
+void		do_wolf(t_e *e)
 {
 	e->i = 0;
 	e->c = 0;
 	e->mlx = initialize_mlx(e->start, &e->draw);
-	if (!(fill_xpm(&e, av)))
+	if (!(fill_xpm(&e)))
 		exit(0);
 	mlx_loop_hook(e->mlx->mlx, do_wolf_3d, e);
 	mlx_hook(W, 17, 1L << 17, red_button, e);

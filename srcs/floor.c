@@ -36,7 +36,6 @@ t_lxpm		*find_text(t_e *e, double x, double y)
 
 void		todraw(t_e *e, t_rc rc, t_rc *fl)
 {
-	int		y;
 	t_lxpm	*f;
 
 	fl->pix.y = fl->drawstart - 2;
@@ -59,7 +58,7 @@ void		todraw(t_e *e, t_rc rc, t_rc *fl)
 	}
 }
 
-void		init_fl_rc(t_e *e, t_rc rc, t_rc *fl)
+void		init_fl_rc(t_rc rc, t_rc *fl)
 {
 	fl->deltadist.y = rc.map.y + rc.wallx;
 	fl->deltadist.x = rc.map.x + rc.wallx;
@@ -87,7 +86,7 @@ void		draw_floor(t_e *e, t_rc rc)
 {
 	t_rc flrc;
 
-	init_fl_rc(e, rc, &flrc);
+	init_fl_rc(rc, &flrc);
 	if (rc.drawend != RESO_Y - 1)
 		todraw(e, rc, &flrc);
 }

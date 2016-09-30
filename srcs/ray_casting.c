@@ -94,7 +94,6 @@ void		calc_line(t_rc *rc)
 void		ray_casting(t_e *e)
 {
 	t_rc	rc;
-	t_hsv	hsv;
 
 	rc.pix.x = -1;
 	if (e->opt == 0)

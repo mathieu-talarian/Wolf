@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-void	start_fill_xpm(t_mlx *mlx, t_lxpm **lxpm, char **av)
+void	start_fill_xpm(t_mlx *mlx, t_lxpm **lxpm)
 {
 	lstxpmadd(lxpm, lst_xpm_new(mlx, "./image/fl.xpm", -3));
 	lstxpmadd(lxpm, lst_xpm_new(mlx, "./image/sb.xpm", 20));
@@ -27,12 +27,12 @@ void	start_fill_xpm(t_mlx *mlx, t_lxpm **lxpm, char **av)
 	lstxpmadd(lxpm, lst_xpm_new(mlx, "./image/blue.xpm", 0));
 }
 
-int		fill_xpm(t_e **ll, char **av)
+int		fill_xpm(t_e **ll)
 {
 	t_e *e;
 
 	e = *ll;
-	start_fill_xpm(e->mlx, &e->lxpm, av);
+	start_fill_xpm(e->mlx, &e->lxpm);
 	if (e->lxpm == NULL)
 		e->opt = 1;
 	return (1);

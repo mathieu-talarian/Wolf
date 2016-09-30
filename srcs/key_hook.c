@@ -37,9 +37,9 @@ void	moove(t_e *e)
 		else if (e->c & (1u << n) && n == 4)
 			straf_right(&e->draw, e->map);
 		else if (e->c & (1u << n) && n == 5)
-			turn_left(&e->draw, e->map);
+			turn_left(&e->draw);
 		else if (e->c & (1u << n) && n == 6)
-			turn_right(&e->draw, e->map);
+			turn_right(&e->draw);
 	}
 	rd(e);
 }

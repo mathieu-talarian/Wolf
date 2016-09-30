@@ -48,6 +48,6 @@ void	notextures(t_e *e, t_rc rc)
 	else if (mapping(&e->map, rc.map.x, rc.map.y) == 8)
 		hsv.h = 50;
 	else if (mapping(&e->map, rc.map.x, rc.map.y) == 9)
-		hsv.v = 70;
+		hsv.h = 70;
 	draw_line(e->mlx, hsv_to_rgb(hsv), rc);
 }

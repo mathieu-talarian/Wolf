@@ -14,6 +14,7 @@
 
 int		red_button(t_e *e)
 {
+	free(e);
 	exit(0);
 	return (0);
 }

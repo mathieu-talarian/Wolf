@@ -12,7 +12,7 @@
 
 #include "wolf.h"
 
-void	turn_left(t_draw *draw, t_map *map)
+void	turn_left(t_draw *draw)
 {
 	double olddirx;
 	double oldplanex;
@@ -27,7 +27,7 @@ void	turn_left(t_draw *draw, t_map *map)
 	E.planey = oldplanex * sin(-rotspeed) + E.planey * cos(-rotspeed);
 }
 
-void	turn_right(t_draw *draw, t_map *map)
+void	turn_right(t_draw *draw)
 {
 	double olddirx;
 	double oldplanex;

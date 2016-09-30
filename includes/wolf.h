@@ -186,6 +186,7 @@ typedef struct		s_lxpm
 	int				bpp;
 	int				e;
 	int				ext;
+	int				n_tx;
 	struct s_lxpm	*next;
 }					t_lxpm;
 
@@ -221,10 +222,9 @@ int		small_map(char *fn);
 */
 void		line_list_add(t_line **begin_list, t_line *nw);
 void		data_list_add(t_map **begin_list, t_map *nw);
-t_map		*new_data_list(int count_words, int num_line, char **tab, \
-		t_vect *start);
-t_line		*new_line_list(int y, int x, char *nbr, t_vect *start);
-void		fill_line_list(t_line **list, int num_line, char **tab, t_vect *start);
+t_map		*new_data_list(int num_line, char **tab);
+t_line		*new_line_list(int y, int x, char *nbr);
+void		fill_line_list(t_line **list, int num_line, char **tab);
 int			fill_size(t_map **m, int *w, int *h);
 void		free_map_list(t_map **map);
 void		tab_clr(char ***tab);
@@ -235,7 +235,7 @@ void			print_map(t_map **map);
 void			mlx_img_to_black(t_mlx *mlx);
 
 
-void			do_wolf(t_e *e, char **av);
+void			do_wolf(t_e *e);
 void			wolf_3d(t_e *e);
 /*
 **maths
@@ -269,8 +269,8 @@ void	move_forward(t_draw *draw, t_map *map);
 void	move_backward(t_draw *draw, t_map *map);
 void	straf_left(t_draw *draw, t_map *map);
 void	straf_right(t_draw *draw, t_map *map);
-void	turn_left(t_draw *d, t_map *m);
-void	turn_right(t_draw *d, t_map *m);
+void	turn_left(t_draw *d);
+void	turn_right(t_draw *d);
 void	moove(t_e *e);
 
 void	open_door(t_e *e);
@@ -282,7 +282,7 @@ int		red_button(t_e *e);
 */
 t_lxpm		*lst_xpm_new(t_mlx *mlx, char *fn, int tx_n);
 void		lstxpmadd(t_lxpm **begin_list, t_lxpm *nw);
-int			fill_xpm(t_e **ll, char **av);
+int			fill_xpm(t_e **ll);
 void	cpy_img(t_mlx *mlx, t_lxpm **x);
 t_lxpm		*return_xpm(t_lxpm **p, char *fn);
 

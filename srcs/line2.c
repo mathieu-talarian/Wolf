@@ -26,7 +26,6 @@ void		line_1(t_mlx *mlx, t_l l, t_rgb rgb)
 {
 	int		i;
 	int		cpt;
-	int		j;
 
 	i = 0;
 	cpt = 0;
@@ -48,7 +47,6 @@ void		line_2(t_mlx *mlx, t_l l, t_rgb rgb)
 {
 	int		i;
 	int		cpt;
-	int		j;
 
 	i = 0;
 	cpt = 0;
